@@ -15,15 +15,15 @@ public class Lista<Tipo> {
 		tam	++;		
 	}
 	
-	public Iterador getIterador(){
-		return new Iterador(cabecera);
+	public Iterador <Tipo>getIterador(){
+		return new Iterador<Tipo>(cabecera);
 	}
 	
 	public int search(Tipo x){
 		int pos = -1;
 		
 		NodoLista<Tipo> act = cabecera;
-		int i ;
+		int i = 0 ;
 		while (act.next != null && pos == -1){
 			i++;
 			act = act.next;
