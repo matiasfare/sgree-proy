@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-a = type(input("Ingrese una cadena: "))
+a = input("Ingrese una cadena: ")
 b = int(input("Ingrese veces a multiplicar: "))
 
-c = a * b 
+c = b * a 
 
 print("Resultado ",c)
