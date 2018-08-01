@@ -1,3 +1,3 @@
 # Python
-programas de practica en Python
--Como buena practica se define el indentado simpre en 3 Espacios
+Programas de practica en Python
+<br>-Como buena practica se define el indentado simpre en 3 Espacios</br>
