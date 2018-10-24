@@ -9,5 +9,15 @@ class Persona():
     def __str__ (self):
         return (str(self.cedula), self.apellido, self.nombre)
 
+
 class Cliente(Persona):
-    
+    '''Clase para un Cliente'''
+    def crear_cliente(self, nombre, apellido, cedula, contacto, dispositivos):
+        self.nombre = nombre
+        self.apellido = apellido
+        self.cedula = cedula
+        self.contacto = contacto
+        self.dispositivos = dispositivos
+        
+        return (str(self.cedula), self.apellido, self.nombre, self.contacto, self.dispositivos)
+

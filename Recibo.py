@@ -1,6 +1,7 @@
 #almacena cualquier ficha que se le ingrese
-from myzodb.py import MiDataBase, transaction
-fb = MiDataBase('Data.fs')
+import myzodb
+
+fb = MiDataBase('datos/Data.fs')
 dbroot = db.raiz
 
 class Recibo(Ficha):
