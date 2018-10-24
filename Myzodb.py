@@ -1,5 +1,6 @@
 
-from ZODB import
+from ZODB import FileStorage, DB
+import transaction
 
 class MiDataBase(object):
     def __init__ (self, archivo):
@@ -12,5 +13,3 @@ class MiDataBase(object):
         self.conexion.close()
         self.db.close()
         self.storage.close()
-
-        
