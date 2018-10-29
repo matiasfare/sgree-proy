@@ -5,3 +5,7 @@ class Ficha(metaclass=ABCMeta):
     @abstractmethod
     def __init__(self):
         pass
+
+class Recibo(Ficha):
+    '''Recibo para el cliente'''
+    

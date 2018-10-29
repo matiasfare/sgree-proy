@@ -13,3 +13,5 @@ class MiDataBase(object):
         self.conexion.close()
         self.db.close()
         self.storage.close()
+
+
