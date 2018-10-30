@@ -1,17 +1,17 @@
 
-from ZODB import FileStorage, DB
-import transaction
+# from ZODB import FileStorage, DB
+# import transaction
 
-class MiDataBase(object):
-    def __init__ (self, archivo):
-        self.storage = FileStorage.FileStorage(archivo)
-        self.db = DB(self.storage)
-        self.conexion = self.db.open()
-        self.raiz = self.conexion.root()
+# class MiDataBase(object):
+#     def __init__ (self, archivo):
+#         self.storage = FileStorage.FileStorage(archivo)
+#         self.db = DB(self.storage)
+#         self.conexion = self.db.open()
+#         self.raiz = self.conexion.root()
     
-    def close(self):
-        self.conexion.close()
-        self.db.close()
-        self.storage.close()
+#     def close(self):
+#         self.conexion.close()
+#         self.db.close()
+#         self.storage.close()
 
 

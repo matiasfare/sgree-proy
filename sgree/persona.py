@@ -1,29 +1,27 @@
+#-----------------------------------PERSONA-------------------------------------------------
+from abc import ABCMeta, abstractmethod
 
-class Persona():
-    '''Clase Base para una personas'''
 
+class Persona(metaclass=ABCMeta):
+    '''Clase Abstracta persona'''
+    @abstractmethod
     def __init__ (self, documento, nombre, apellido):
         self.nombre = nombre
         self.apellido = apellido
         self.cedula = cedula
-    # def __str__ (self):
-    #     return (str(self.cedula), self.apellido, self.nombre)
-
 
 class Cliente(Persona):
-    '''Clase para un Cliente'''
+    '''Clase para crar un Cliente'''
     tipo = "cliente"
-    def __init__(self,documento, nombre, apellido,):
+    def __init__(self,documento, nombre, apellido,contacto):
         self.nombre = nombre
         self.apellido = apellido
         self.cedula = cedula
         self.contacto = contacto
         self.dispositivos = dispositivos
-        
-        #return (str(self.cedula), self.apellido, self.nombre, self.contacto, self.dispositivos)
 
 class Tecnico(Persona):
-    '''Clase para un Cliente'''
+    '''Clase para un Tecnico'''
     tipo = "tecnico"
     def crear_cliente(self, nombre, apellido, cedula, contacto, dispositivos):
         self.nombre = nombre
@@ -31,6 +29,3 @@ class Tecnico(Persona):
         self.cedula = cedula
         self.contacto = contacto
         self.dispositivos = dispositivos
-        
-        return (str(self.cedula), self.apellido, self.nombre, self.contacto, self.dispositivos)
-
