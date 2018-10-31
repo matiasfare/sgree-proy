@@ -1,95 +1,63 @@
 #-----------------------------------MODEL-------------------------------------------------
 #Model.py
+import sys
 import os
-import pickle
-from sgree.persona import Persona
-from sgree.ficha import Recibo
+ruta = os.getcwd()
+sys.path.insert(0, ruta+'sgree')
+#importa libreria Pickle basada hecha en C
+from sgree.myzodb import MiZODB, transaction
+import persistent
+from persona import Cliente
+
 
 class Model():
-
-    def guardar_recibo(self, recibo):
-        result = []
-        if os.path.getsize(recibo) > 0:
-            #lee el archibo recibo
-            archivo = open('recibo.pickle', 'rb')
-            #carga el carchivo recibo
-            result = pickle.load(archivo)
-            #cierra, nose para que
-            archivo.close()
-            #crea el archivo recibo
-            archivo_nuevo = open('recibo.pickle','wb')
-            #carga el nuevo objeto en memoria
-            result.append(archivo_nuevo)
-            # Escribe objero en archivo
-            pickle.dump(result, archivo_nuevo)
-            # Cierra archivo
-            archivo_nuevo.close()
-        else: #en caso que el archivo no exista
-            #crea el archivo recibo
-            archivo_nuevo = open('recibo.pickle','wb')
-            #carga el nuevo objeto en memoria
-            result.append(recibo)
-            # Escribe objero en archivo
-            pickle.dump(result, archivo_nuevo)
-            # Cierra archivo
-            archivo_nuevo.close()
-        return
-
-    def guardar_persona(self, cliente):
-        result = []
-
-        if os.path.getsize(cliente) > 0:
-            archivo = open('cliente.pickle', 'rb')
-            result = pickle.load(archivo)
-            archivo.close()
-            archivo_nuevo = open('cliente.pickle','wb')
-            result.append(persona)
-            pickle.dump(result, archivo_nuevo)
-            archivo_nuevo.close()
-        else:
-            archivo_nuevo = open('cliente.pickle','wb')
-            result.append(persona)
-            pickle.dump(result, archivo_nuevo)
-            archivo_nuevo.close()
-        return
+       
+    def persistir_objeto(self,objeto, key):
+        db = MiZODB('sgree-data.fs')
+        dbroot[key] = objeto
+        transaction.commit()
+        db.close()
         
-    def listar_personas(self):
+    
+    def getAll(self):
+        db = MiZODB('sgree-data.fs')
+        dbroot = db.raiz
         result = []
-        try:
-            archivo = open('persona.pickle','rb')
-            result = pickle.load(archivo)
-            archivo.close()
-            return result
-        except IOError:
-            return result 
-        return
+        for key in dbroot.keys():
+            obj = dbroot[key]
+            if isinstance(obj, cliente):
+                cliente = Cliente(obj.documento, obj.nombre,obj.apellido, obj.contacto)
+                result.append(cliente)
+        db.close()
+        return result
+
+    def listar_recibos(self,key):
+        '''Retorna todos los objetos que pertenezcan a la key'''
+        dbroot = db.raiz
+        print (key + ' :', dbroot[key])
+        return dbroot[key]
+
+    def editar(self):
+        '''Debe restortar el elemento a editar'''
+        pass
         
-    def buscar_por_cedula(self, cedula):
-        '''Busca Cliente en la bd por cedula, si ese no exites retorna un mensaje'''
-        no_encontrado = "Cliente no Encontrado"
-        try:
-            archivo = open('cliente.pickle','rb')
-            lista_clientes = pickle.load(archivo)
-            archivo.close()
-            for cliente in lista_clientes:
-                if(cliente.documento == cedula):
-                    resultado = {"Nombre ": cliente.nombre, "Apellido ": Cliente.apellido, "Contacto ": cliente.contacto}
-                    return resultado
-            return no_encontrado
-        except IOError:
-            return no_encontrado 
-        return
-
-    def listar_recibos(self):
-        result = []
-        try:
-            archivo = open('recibo.pickle','rb')
-            result = pickle.load(archivo)
-            archivo.close()
-            return result
-        except IOError:
-            return result 
-        return
+         
 
 
 
+db = MiZODB('./sgree/data/sgree-data.fs')
+dbroot = db.raiz
+modulos= ["empresa","sucursal","dispositivo","ficha","recibo","persona","cliente","tecnico","personal","contacto","pc","celular","notebook"]
+for i in modulos:
+    try:
+        #print(i)
+        if not str(i) in dbroot:
+            dbroot[i] = {}
+    except KeyError:
+        print("clave invalida")
+
+c = Model()
+
+a = c.getAll()
+
+print (a)

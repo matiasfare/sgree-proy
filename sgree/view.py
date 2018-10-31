@@ -2,7 +2,9 @@
 #importamos la lib time para obtener time del sistema
 import time
 import sys, os
-from sgree.ficha import *
+from ficha import *
+from persona import *
+from ficha import *
 class View():
         
     def vista_crear_recibo(self):
@@ -19,7 +21,7 @@ class View():
         return nuevo_recibo
 
 
-    def vista_agregar_Cliente(self):
+    def vista_agregar_cliente(self):
         '''Intereactua con le usuario asi obtener datos necesarios para crear objeto Cliente '''
         print("----------CREAR CLIENTE-------------!\n")
         cedula  = input("Ingrese documento del nuevo Cliente: ")
@@ -30,7 +32,8 @@ class View():
         return nuevo_cliente
 
 
-    def vista_listar_persona(self, lista_cliente):
+    def vista_listar_cliente(self, lista_cliente):
+        '''Recibe como parametro la lista de clientes e imprime en pantalla'''
         print('Listado de personas en la base de datos: \n')
         if lista_cliente:
             for persona in lista_cliente:
@@ -38,32 +41,45 @@ class View():
 
 
     def vista_listar_recibos(self, lista_recibo):
+        '''Recibe como parametro la lista de recibos e imprime en pantalla'''
         print('Listado de Recibos en la base de datos: \n')
+        print('Fecha: ', Recibo.fecha, '\n Presupuesto : ', Recibo.validez, 'dias', ',\n Tecnico: ', Recibo.tecnico)
         if lista_recibo:
             for Recibo in lista_recibo:
                 print('Fecha: ', Recibo.fecha, '\n Presupuesto : ', Recibo.validez, 'dias', ',\n Tecnico: ', Recibo.tecnico)
 
 
     def vista_buscar_por_cedula(self):
+        '''Pide al usuario ingresar el numero de documento a buscar'''
         cedula = input("Ingrese el numero de documento de la persona a buscar: ")
         return cedula
 
 
     def vista_imprimir_persona_buscada_por_cedula(self, resultado):
+        '''Recibe como paremetro el resultado de la busqueda e imprime en pantalla'''
         print("La persona encontrada es: ", resultado)
 
 
-    def vista_imprimir_recibo_guardado(self, resultado):
+    def vista_imprimir_recibo(self, resultado):
+        '''Recibe como paremetro un objeto Recibo e imprime en pantalla'''
         print("El recibo creado es: ", resultado)
 
 
     def selecionar_tecnico(self):
         '''selecciona tenico para la ficha
-        busca en la bd, si el tecnico seleccionado existe o no'''
-        op = opcion.lower()
-
+        busca en la bd, si el tecnico seleccionado existe o no, en caso que exista lo retorna'''
+        listar_tecnicos()
+        op = lee_entero()
+        # try op =! int:
+        #     op = lee_entero()
+        # else:
+        # pass
         return op
-
+    def lee_entero():
+        ''' Solicita un valor entero y lo devuelve.
+        Si el valor ingresado no es entero, lanza una excepción. '''
+        valor = input("Ingrese un número entero: ")
+    return int(valor)
 
 
     

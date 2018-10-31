@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #-----------------------------------CONTROLLER-------------------------------------------------
-from sgree.model import Model
-from sgree.view import View
+from model import Model
+from view import View
 
 class Controller:
         def __init__(self):
@@ -12,19 +12,19 @@ class Controller:
         def crear_recibo(self):
             '''Controlador que se comunica con la vista y el modelo para Agregar o Crear Recibo'''
             new_recibo = self.view.vista_crear_recibo()
-            recibo = self.model.guardar_recibo(new_recibo)
+            recibo = self.model.persistir_objeto(new_recibo,'recibo')
             self.view.vista_imprimir_recibo_guardado(recibo)
 
         def agregar_cliente(self):
             '''Controlador que llama al modelo y la vista para agregar un Cliente'''
-            cliente = self.view.vista_gregar_cliente()
-            self.model.guardar_cliente(cliente)
+            cliente = self.view.vista_agregar_cliente()
+            self.model.persistir_objeto(cliente,'cliente')
 
-        def listar_personas(self):
+        def listar_clientes(self):
             '''Controlador que se comunica con la vista y el modelo para listar Clientes'''
-            listaDePersonas = self.model.listar_personas()
-            self.view.vista_listar_persona(lista_de_personas)
-            return lista_de_personas
+            lista_de_clientes = self.model.listar('cliente')
+            self.view.vista_listar_clientes(lista_de_clientes)
+            return lista_de_clientes
 
         def buscar_por_cedula(self):
             '''Controlador que se comunica con la vista y el modelo para Buscar Cliente por Cedula'''
@@ -34,6 +34,10 @@ class Controller:
 
         def listar_recibos(self):
             '''Imprime Solo Recibos existentes'''
-            lista_recibos = self.model.listar_recibos()
+            lista_recibos = self.model.listar_recibos('recibo')
             self.view.vista_listar_recibos(lista_recibos)
             return lista_recibos
+
+        def editar_recibo(self):
+            '''Permitira editar un recibo'''
+        pass

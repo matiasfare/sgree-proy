@@ -8,24 +8,24 @@ class Persona(metaclass=ABCMeta):
     def __init__ (self, documento, nombre, apellido):
         self.nombre = nombre
         self.apellido = apellido
-        self.cedula = cedula
+        self.documento = documento
 
 class Cliente(Persona):
     '''Clase para crear un Cliente'''
     tipo = "cliente"
-    def __init__(self,documento, nombre, apellido,contacto):
+    contacto = []
+    def __init__(self, documento, nombre, apellido, contacto):
         self.nombre = nombre
         self.apellido = apellido
-        self.cedula = cedula
-        self.contacto = contacto
-        self.dispositivos = dispositivos
+        self.documento = documento
+        self.contacto.append(contacto)
 
 class Tecnico(Persona):
     '''Clase para un Tecnico'''
     tipo = "tecnico"
-    def crear_cliente(self, nombre, apellido, cedula, contacto, dispositivos):
+    def __init__(self, documento, nombre, apellido,contacto, dispositivos):
         self.nombre = nombre
         self.apellido = apellido
-        self.cedula = cedula
+        self.documento = documento
         self.contacto = contacto
         self.dispositivos = dispositivos
