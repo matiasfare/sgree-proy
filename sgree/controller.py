@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #-----------------------------------CONTROLLER-------------------------------------------------
-from sistema.model import Model
-from sistema.view import View
+from sgree.model import Model
+from sgree.view import View
 
 class Controller:
         def __init__(self):
@@ -11,9 +11,9 @@ class Controller:
 
         def crear_recibo(self):
             '''Controlador que se comunica con la vista y el modelo para Agregar o Crear Recibo'''
-            recibo = self.view.vista_crear_recibo()
-            new_recibo = self.model.guardar_recibo(recibo)
-            self.view.vista_imprimir_recibo_guardado(new_recibo)
+            new_recibo = self.view.vista_crear_recibo()
+            recibo = self.model.guardar_recibo(new_recibo)
+            self.view.vista_imprimir_recibo_guardado(recibo)
 
         def agregar_cliente(self):
             '''Controlador que llama al modelo y la vista para agregar un Cliente'''
@@ -32,8 +32,8 @@ class Controller:
             respuesta = self.model.buscar_por_cedula(cedula)
             self.view.vista_imprimir_persona_buscada_por_cedula(respuesta)
 
-        def listar_recibos_por_fecha(self):
-            '''Controlador que Imprime Solo Recibos existentes'''
-            lista_recibos = self.model.listar_recibo_por_fecha()
-            self.view.vista_listar_recibo_por_fecha(lista_recibos)
+        def listar_recibos(self):
+            '''Imprime Solo Recibos existentes'''
+            lista_recibos = self.model.listar_recibos()
+            self.view.vista_listar_recibos(lista_recibos)
             return lista_recibos

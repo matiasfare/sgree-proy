@@ -11,7 +11,7 @@ class Persona(metaclass=ABCMeta):
         self.cedula = cedula
 
 class Cliente(Persona):
-    '''Clase para crar un Cliente'''
+    '''Clase para crear un Cliente'''
     tipo = "cliente"
     def __init__(self,documento, nombre, apellido,contacto):
         self.nombre = nombre
