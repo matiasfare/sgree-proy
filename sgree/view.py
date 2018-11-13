@@ -2,9 +2,9 @@
 #importamos la lib time para obtener time del sistema
 import time
 import sys, os
-from ficha import *
-from persona import *
-from ficha import *
+from ficha import Recibo
+from persona import Cliente,Tecnico
+from persistent import Persistent
 class View():
         
     def vista_crear_recibo(self):
@@ -13,11 +13,11 @@ class View():
         fecha = time.strftime("%F")
         print(fecha+"\n")
         dispositivo = input("Ingrese Tipo de Dispositivo: ")
-        tecnico = input("Seleccione tecnico: ")
+        tecnico = input("Tecnico: ")
         presupuesto = input("Ingrese Presupuesto(Variable):")
         validez = input("Validez de la Ficha(en dias): ")
         observacion = input("Ingrese Observacion: ")
-        nuevo_recibo = Recibo(fecha,presupuesto,validez,tecnico,dispositivo)
+        nuevo_recibo = Recibo(fecha,presupuesto,validez,tecnico,observacion,dispositivo)
         return nuevo_recibo
 
 
@@ -36,16 +36,15 @@ class View():
         '''Recibe como parametro la lista de clientes e imprime en pantalla'''
         print('Listado de personas en la base de datos: \n')
         if lista_cliente:
-            for persona in lista_cliente:
-                print('Nombre: ', Cliente.nombre, ', Apellido: ', Cliente.apellido, ', Documento: ', Cliente.documento)
+            for Cliente in lista_cliente:
+                print('Nombre: ', Cliente.nombre, ', Apellido: ', Cliente.apellido, ', Documento: ', Cliente.documento, ', Contacto', Cliente.contacto )
 
 
     def vista_listar_recibos(self, lista_recibo):
         '''Recibe como parametro la lista de recibos e imprime en pantalla'''
         print('Listado de Recibos en la base de datos: \n')
-        print('Fecha: ', Recibo.fecha, '\n Presupuesto : ', Recibo.validez, 'dias', ',\n Tecnico: ', Recibo.tecnico)
         if lista_recibo:
-            for Recibo in lista_recibo:
+            for Recibo in lista_recibo[key]:
                 print('Fecha: ', Recibo.fecha, '\n Presupuesto : ', Recibo.validez, 'dias', ',\n Tecnico: ', Recibo.tecnico)
 
 
@@ -66,25 +65,42 @@ class View():
 
 
     def selecionar_tecnico(self):
-        '''selecciona tenico para la ficha
-        busca en la bd, si el tecnico seleccionado existe o no, en caso que exista lo retorna'''
+        '''selecciona tenico para la ficha busca en la bd.
+         si el tecnico seleccionado existe o no, en caso que exista lo retorna'''
         listar_tecnicos()
-        op = lee_entero()
+        op = input_entero()
         # try op =! int:
         #     op = lee_entero()
         # else:
         # pass
         return op
-    def lee_entero():
+
+    def input_entero(text):
         ''' Solicita un valor entero y lo devuelve.
-        Si el valor ingresado no es entero, lanza una excepción. '''
-        valor = input("Ingrese un número entero: ")
-    return int(valor)
+        Mientras el valor ingresado no sea entero, vuelve a solicitarlo. '''
+        while True:
+            valor = input("{}: ".format(text))
+        try:
+            valor = int(valor)
+            return valor
+        except ValueError:
+            print('ERROR ingrese numeros')
 
 
-    
 
-#     # Menu 2
+
+
+
+
+
+
+
+
+
+
+# class Aplication(Empresa,Controller):
+  
+#      # Menu 2
 #     def buscar_recibo():
 #         print ("----------MENU BUSCAR RECIBO-------------!\n")
 #         print ("9. Back")
@@ -170,6 +186,3 @@ class View():
 #        '9': back,
 #        '0': exit,
 #     }
-
-
-# main_menu()

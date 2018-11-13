@@ -2,8 +2,9 @@
 #-----------------------------------CONTROLLER-------------------------------------------------
 from model import Model
 from view import View
+from persistent import Persistent
 
-class Controller:
+class Controller(Persistent):
         def __init__(self):
             '''Clase controlador De: Modelo y Vista'''
             self.model = Model()

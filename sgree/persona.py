@@ -1,6 +1,6 @@
 #-----------------------------------PERSONA-------------------------------------------------
 from abc import ABCMeta, abstractmethod
-
+from persistent import Persistent
 
 class Persona(metaclass=ABCMeta):
     '''Clase Abstracta persona'''
@@ -10,7 +10,7 @@ class Persona(metaclass=ABCMeta):
         self.apellido = apellido
         self.documento = documento
 
-class Cliente(Persona):
+class Cliente(Persona,Persistent):
     '''Clase para crear un Cliente'''
     tipo = "cliente"
     contacto = []
