@@ -20,7 +20,7 @@ class Cliente(Persona,Persistent):
         self.documento = documento
         self.contacto.append(contacto)
 
-class Tecnico(Persona):
+class Tecnico(Persona,Persistent):
     '''Clase para un Tecnico'''
     tipo = "tecnico"
     def __init__(self, documento, nombre, apellido,contacto, dispositivos):
