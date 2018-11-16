@@ -16,16 +16,16 @@ class MiZODB(object):
         self.storage.close()
 
 
-    def getAll(self):
-        db = MiZODB('sgree-data.fs')
-        dbroot = db.raiz
-        result = []
-        for key in dbroot.keys():
-            obj = dbroot[key]
-            if isinstance(obj, cliente):
-                cliente = Cliente(obj.documento, obj.nombre,obj.apellido, obj.contacto)
-                result.append(cliente)
-        db.close()
-        return result
+    # def getAll(self):
+    #     db = MiZODB('../data/sgree-data.fs')
+    #     dbroot = db.raiz
+    #     result = []
+    #     for key in dbroot.keys():
+    #         obj = dbroot[key]
+    #         if isinstance(obj, cliente):
+    #             cliente = (obj.documento, obj.nombre,obj.apellido, obj.contacto)
+    #             result.append(cliente)
+    #     db.close()
+    #     return result
 
 
