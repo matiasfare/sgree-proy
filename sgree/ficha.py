@@ -11,7 +11,7 @@ class Ficha(metaclass=ABCMeta):
     def __init__(self):
         pass
 
-class Recibo(Ficha):
+class Recibo(Ficha,Persistent):
     '''Clase Recibo'''
     #Variable de clase
     dispositivo = []
