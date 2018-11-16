@@ -1,188 +1,114 @@
-#-----------------------------------VIEW-VISTA-------------------------------------------------
-#importamos la lib time para obtener time del sistema
-import time
-import sys, os
-from ficha import Recibo
-from persona import Cliente,Tecnico
-from persistent import Persistent
-class View():
+#Todo lo que sea Vista
+# -*- coding: utf-8 -*-
+import tkinter as tk
+from tkinter import ttk
+import model
+#Resolucion y pocicion de Ventana Principal
+#Principal
+resol_poc_vp='700x500+40+20'
+#Secundaria
+resol_pc_vs='600x300+40+20'
+TITULO = 'SGREE'
+
+
+class VistaPrincipal(tk.PanedWindow, add_recibo):
+    '''Vista que contiene pantalla princial, y las llamadas a las funciones'''
+    def __init__ (self):
+        self.raiz = tk.Tk()
+        self.raiz.geometry(resol_poc_vp)
+        self.raiz.resizable(width = False, height = False)
+        self.raiz.title('Ver Info')
+        self.incializar()
+
+    
+    def ver_info(self):
         
-    def vista_crear_recibo(self):
-        '''Intereactua con le usuario asi obtener datos necesarios para crear objeto Recibo '''
-        print ("----------CREAR RECIBO-------------!\n")
-        fecha = time.strftime("%F")
-        print(fecha+"\n")
-        dispositivo = input("Ingrese Tipo de Dispositivo: ")
-        tecnico = input("Tecnico: ")
-        presupuesto = input("Ingrese Presupuesto(Variable):")
-        validez = input("Validez de la Ficha(en dias): ")
-        observacion = input("Ingrese Observacion: ")
-        nuevo_recibo = Recibo(fecha,presupuesto,validez,tecnico,observacion,dispositivo)
-        return nuevo_recibo
+        # Borra el contenido que tenga en un momento dado
+        # la caja de texto
+        
+        self.tinfo.delete("1.0", tk.END)
+
+        #Obtiene info de la ventana 'self.raiz':
+
+        info1 = self.raiz.winfo_class()
+        info2 = self.raiz.winfo_geometry()
+        info3 = str(self.raiz.winfo_width())
+        info4 = str(self.raiz.winfo_height())
+        info5 = str(self.raiz.winfo_rootx())
+        info6 = str(self.raiz.winfo_rooty())
+        info7 = str(self.raiz.winfo_id())
+        info8 = self.raiz.winfo_name()
+        info9 = self.raiz.winfo_manager()
+
+        # Construye una cadena de texto con toda la
+        # información obtenida:
+        
+        texto_info = "Clase de 'raiz': " + info1 + "\n"
+        texto_info += "Resolución y posición: " + info2 + "\n"
+        texto_info += "Anchura ventana: " + info3 + "\n"
+        texto_info += "Altura ventana: " + info4 + "\n"
+        texto_info += "Pos. Ventana X: " + info5 + "\n"
+        texto_info += "Pos. Ventana Y: " + info6 + "\n"
+        texto_info += "Id. de 'raiz': " + info7 + "\n"
+        texto_info += "Nombre objeto: " + info8 + "\n" 
+        texto_info += "Gestor ventanas: " + info9 + "\n"
+
+        # Inserta la información en la caja de texto:
+        
+        self.tinfo.insert("1.0", texto_info)
+
+    def vista_new_recibo(self, vista):
+        return 0
 
 
-    def vista_agregar_cliente(self):
-        '''Intereactua con le usuario asi obtener datos necesarios para crear objeto Cliente '''
-        print("----------CREAR CLIENTE-------------!\n")
-        cedula  = input("Ingrese documento del nuevo Cliente: ")
-        nombre = input("Ingrese el nombre del nuevo Cliente:")
-        apellido = input("ingrese el apellido del nuevo Cliente:")
-        contacto = input ("Ingrese numero de contacto: ")
-        nuevo_cliente = Cliente(cedula, nombre, apellido, contacto)
-        return nuevo_cliente
+class add_recibo():
+    '''Clase que contiene campos para crear Recibo'''
 
+    def inicializar(self):
+        self.raiz = tk.Tk()
+        #define widget Text en el que se puede introducir textos
+        self.tinfo = tk.Text(self.raiz, width = 80, height = 10)
+        #situa la ventada en la parte superior
+        self.tinfo.pack(side = tk.TOP)
+        #boton info
+        self.binfo = ttk.Button(self.raiz, text = 'Info', command = self.verinfo)
+        self.binfo.pack(side =  tk.LEFT)        
+        self.raiz.configure(bg = 'beige')
+        self.raiz.title(TITULO)        
+        self.bsalir = ttk.Button(self.raiz, text = 'Salir', command = self.raiz.destroy)
+        self.bsalir.pack(side = tk.RIGHT)
+        # El foco de la aplicación se sitúa en el botón
+        # 'self.binfo' resaltando su borde. Si se presiona
+        # la barra espaciadora el botón que tiene el foco
+        # será pulsado. El foco puede cambiar de un widget
+        # a otro con la tecla tabulador [tab]
+        self.binfo.focus_set()
+        self.raiz.mainloop()
+        ttk.Label(self, text="Ingrese datos del Recibo", ).grid(
+            row=1, column=2)
+        ttk.Label(self, text="Cedula*: ").grid(row=2, column=1)
+        ttk.Label(self, text="Nombre*: ").grid(row=3, column=1)
+        ttk.Label(self, text="Apellido*: ").grid(row=4, column=1)
+        ttk.Label(self, text="Direccion: ").grid(row=5, column=1)
+        ttk.Label(self, text="Contactos*: ").grid(row=7, column=1)
+        ttk.Label(self, text="tel.: ").grid(row=6, column=2)
+        ttk.Label(self, text="email: ").grid(row=8, column=2)
+        ttk.Label(self, text="Sueldo: ").grid(row=10, column=1)
+        ttk.Button(self, text="GUARDAR", command = self.raiz.destroy).grid(row=11, column=3)
 
-    def vista_listar_cliente(self, lista_cliente):
-        '''Recibe como parametro la lista de clientes e imprime en pantalla'''
-        print('Listado de personas en la base de datos: \n')
-        if lista_cliente:
-            for Cliente in lista_cliente:
-                print('Nombre: ', Cliente.nombre, ', Apellido: ', Cliente.apellido, ', Documento: ', Cliente.documento, ', Contacto', Cliente.contacto )
-
-
-    def vista_listar_recibos(self, lista_recibo):
-        '''Recibe como parametro la lista de recibos e imprime en pantalla'''
-        print('Listado de Recibos en la base de datos: \n')
-        if lista_recibo:
-            for Recibo in lista_recibo[key]:
-                print('Fecha: ', Recibo.fecha, '\n Presupuesto : ', Recibo.validez, 'dias', ',\n Tecnico: ', Recibo.tecnico)
-
-
-    def vista_buscar_por_cedula(self):
-        '''Pide al usuario ingresar el numero de documento a buscar'''
-        cedula = input("Ingrese el numero de documento de la persona a buscar: ")
-        return cedula
-
-
-    def vista_imprimir_persona_buscada_por_cedula(self, resultado):
-        '''Recibe como paremetro el resultado de la busqueda e imprime en pantalla'''
-        print("La persona encontrada es: ", resultado)
-
-
-    def vista_imprimir_recibo(self, resultado):
-        '''Recibe como paremetro un objeto Recibo e imprime en pantalla'''
-        print("El recibo creado es: ", resultado)
-
-
-    def selecionar_tecnico(self):
-        '''selecciona tenico para la ficha busca en la bd.
-         si el tecnico seleccionado existe o no, en caso que exista lo retorna'''
-        listar_tecnicos()
-        op = input_entero()
-        # try op =! int:
-        #     op = lee_entero()
-        # else:
-        # pass
-        return op
-
-    def input_entero(text):
-        ''' Solicita un valor entero y lo devuelve.
-        Mientras el valor ingresado no sea entero, vuelve a solicitarlo. '''
-        while True:
-            valor = input("{}: ".format(text))
-        try:
-            valor = int(valor)
-            return valor
-        except ValueError:
-            print('ERROR ingrese numeros')
-
-
-
-
-
+        # self.get_cedula_entry()
+        # self.get_nombre_entry()
+        # self.get_apellido_entry()
+        # self.get_direccion_entry()
+        # self.get_tel_entry()
+        # self.get_email_entry()
+        # self.get_sueldo_entry()
 
 
 
+def main():
+    tk.mi_app = vista_principal()
+    return 0
 
 
-
-
-
-# class Aplication(Empresa,Controller):
-  
-#      # Menu 2
-#     def buscar_recibo():
-#         print ("----------MENU BUSCAR RECIBO-------------!\n")
-#         print ("9. Back")
-#         print ("0. Quit") 
-#         opcion = input(" >>  ")
-#         exec_menu(opcion)
-#         return
-
-
-#     # Menu 3
-#     def listar_recibo():
-#         print ("----------MENU LISTAR-------------!\n")
-#         print ("9. Back")
-#         print ("0. Quit") 
-#         opcion = input(" >>  ")
-#         exec_menu(opcion)
-#         return
-
-
-#     # Menu 4
-#     def editar_ficha():
-#         print ("----------MENU EDITAR RECIBO-------------!\n")
-#         print ("9. Back")
-#         print ("0. Quit") 
-#         opcion = input(" >>  ")
-#         exec_menu(opcion)
-#         return
-
-#     # Back al menu principal
-#     def back():
-#         menu_actions['main_menu']()
- 
-#     # Exit program
-#     def exit():
-#         sys.exit()
-
-#     # Main definition - constante
-#         menu_actions  = {}  
- 
-#     # Main menu
-#     def main_menu():   
-#         #os.system('clear')
-#         print('Indique lo que desera realizar:')
-#         print('--------------------------------')
-#         print('Crear Recibo   (1)')
-#         print('Buscar         (2)')
-#         print('Listar Cliente (3)')
-#         print('Editar Ficha   (4)')
-#         print('Agregar Persona(5)')
-#         print ("\nSalir (0)")
-#         opcion = input(" >>  ")
-#         exec_menu(opcion) 
-#         return
- 
-#     # Execute menu
-#     def exec_menu(opcion):
-#         '''Verifica que la opcion ingresada sea la correcta, de no ser asi vuelve a solcitar opcion'''
-#         os.system('clear')
-#         #print('Se verifica que la opcion ingresada sea la correcta, de no ser asi vuelve a solcitar opcion\n')
-#         op = opcion.lower()
-#         if op == '':
-#             menu_actions['main_menu']()
-#         else:
-#             try:
-#                 menu_actions[op]()
-#             except KeyError:
-#                 print ("Invalid selection, please try again.\n")
-#                 menu_actions['main_menu']()
-#         return
- 
-# # =======================
-# #    MENUS DEFINITIONS
-# # =======================
- 
-# # Menu definition
-#     menu_actions = {
-#        'main_menu': main_menu,
-#        '1': crear_recibo,
-#        '2': buscar_recibo,
-#        '3': listar_recibo,
-#        '4': editar_ficha,
-#        '5': agregar_persona,
-#        '9': back,
-#        '0': exit,
-#     }
+main()
