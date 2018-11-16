@@ -1,0 +1,18 @@
+Sistema SGREE
+
+antes de inciar asegurece de tener instalado
+python3 y pip3
+$sudo apt-get install python3 pip3
+ZODB
+$pip3 install ZODB
+$pip3 install zodb transaction
+
+
+
+Para inciar se debe ejecutar el archivo aplication.py
+
+con el comando 
+$python3 -m sgree.aplication.py
+
+
+
