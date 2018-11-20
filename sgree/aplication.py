@@ -1,15 +1,14 @@
-import tkinter
-import view
+from view import View
+import tkinter as tk
 
-root = tkinter.Tk()
-vista = view.vista_principal()
-view = view.add_recibo()
+root = tk.Tk()
 
-root.mainloop()
-
-
+# def main():
+#     mi_app = View(root)
+#     return 0
 
 
+# main()
 
 #c.crear_recibo()
 # c.agregar_cliente()
@@ -18,3 +17,7 @@ root.mainloop()
 # c.buscar_recibo()
 # c.editar_recibo()
 # c.listar_recibos()
+
+root = tk.Tk()
+vista_principal = View(root)
+root.mainloop()
