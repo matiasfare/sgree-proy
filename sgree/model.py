@@ -18,18 +18,13 @@ class Model(persistent.Persistent):
         db = MiZODB('sgree-data.fs')
         dbroot = db.raiz
 
-        for i in self.diccionarios:
-            try:
-                if str(i) in dbroot:
-                    lista = dbroot[dic]
-            except KeyError:
-                print("La clave es invalida")
-       
-        
-       
-        #print (key + ' :', dbroot[key])
-        # return lista
-        return lista
+        if not dic in dbroot:
+            sub_dic = dbroot[dic]
+            resul = sub_dic
+        elif not dic in dbroot:
+            resul = "La clave es invalida" 
+            print(resul)
+        return resul
 
 
     def editar(self):
@@ -38,49 +33,66 @@ class Model(persistent.Persistent):
 
 
     def guardar(self, obj, clave, dic):
-        '''Persiste un objeto, teniendo en cuenta a que dic, pertenece'''
-        
-                
+        '''Persiste un objeto, teniendo en cuenta diccionario y clave,objeto al que pertenece'''
+
+        #Abre base de datos  
         db = MiZODB('sgree-data.fs')
         dbroot = db.raiz
-
+        #Si el diccionario no Existe, lo crea y guarda el objeto
         if not dic in dbroot:
             dbroot[dic] = {}
             sub_dic = dbroot[dic]
             sub_dic[clave] = obj
             dbroot[dic] = sub_dic
+            resul = sub_dic
+        #si el dic ya existe, verifica si el dato ya existe, si no es asi, lo guarda
         elif dic in dbroot:
             sub_dic = dbroot[dic]
             if not clave in sub_dic:
                 sub_dic[clave] = obj
                 dbroot[dic] = sub_dic
+                resul = sub_dic
             elif clave in sub_dic:
+                resul = 'Ya existe este Dato'
                 print ('Ya existe este Dato')
         
         
         transaction.commit()
 
-        for dic in dbroot:
-            dic2 = dbroot[dic]
-            for lo in dic2:
-                obje = dic2[lo]
-                print(str(lo) + ":" + obje.nombre + ", " + obje.apellido)
-
-        # if not self.key in dbroot.keys():
-        #     dbroot[self.key] = [+object]
-        #     transaction.commit()
-        # else:
-        #     recursos = dbroot[self.key]
-        #     #len retorna numero de items en un contenedor
-        #     idx = len(recursos)
+        # for dic in dbroot:
+        #     dic2 = dbroot[dic]
+        #     for lo in dic2:
+        #         obje = dic2[lo]
+        #         print(str(lo) + ":" + obje.nombre + ", " + obje.apellido)
         db.close()
-        return sub_dic
+        return resul
 
-model = Model()
+    def eliminar(self,clave, dic):
+        '''Elimina un objeto, teniendo en cuenta diccionario y clave al que pertenece'''
 
-cliente2 = Cliente(57434,'Elias','Fare', '0981135750')
+        #Abre base de datos  
+        db = MiZODB('sgree-data.fs')
+        dbroot = db.raiz
+        # verifica que exista el diccionario
+        # Si el diccionario existe borra la clave, si esta existe
+        if dic in dbroot:
+            sub_dic = dbroot[dic]
+            if  clave in sub_dic:
+                del sub_dic[clave]
+                resul = True 
+            elif not clave in sub_dic:
+                resul = False 
+                print ('No existe Clave')
+         
+        transaction.commit()
+        db.close()
+        return resul
 
-dic = model.guardar(cliente2,cliente2.documento,'Clientes')
+# model = Model()
+
+# cliente2 = Cliente(57434,'Elias','Fare', '0981135750')
+
+# dic = model.guardar(cliente2,cliente2.documento,'Clientes')
 
 
 # for clave in dic:
