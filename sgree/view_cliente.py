@@ -3,21 +3,22 @@ from tkinter import messagebox
 # import base_de_datos as bd
 from persona import Cliente
 from contacto import *
+from model import Model
 import controller as ct
 bgC = 'light blue'
-buttom = 'light greep'
+buttombg = 'lime green'
 
 class VistaNewCliente(PanedWindow):
-    """Panel que contien los campos para introducir los datos de un cliente"""
-
+    """Panel para introducir los datos de un cliente"""
+    model = Model()
     cedula_entry = None
     nombre_entry = None
     apellido_entry = None
     direccion_entry = None
     tel_entry = None
     email_entry = None
-    ruc_entry = None
-
+    cliente = None
+    
     def __init__(self, panel_master):
         PanedWindow.__init__(self, master=panel_master)
         self.__panel_master = panel_master
@@ -35,7 +36,7 @@ class VistaNewCliente(PanedWindow):
         Label(self, text="DATOS OPCIONALES").grid(row=6, column=2)
         Label(self, text="Direccion: ").grid(row = 7, column =2 )
         Label(self, text="Email: ").grid(row = 8, column = 2)
-        Button(self, text="GUARDAR", command = self.crear_objeto).grid(row = 15, column = 3)
+        Button(self, text="GUARDAR", command = self.add_cliente, bg = buttombg).grid(row = 15, column = 3,  sticky = W)
 
         
 
@@ -91,6 +92,7 @@ class VistaNewCliente(PanedWindow):
 
 
     def val_cli(self, ced, nom, ape):
+        '''Valida los Datos del Nuevo Cliente'''
         val = False
         if ced.isdigit() and nom != "" and ape != "":
             val = True
@@ -101,6 +103,7 @@ class VistaNewCliente(PanedWindow):
 
 
     def val_cont(self, tel, mail):
+        '''Valida datos Opcionales al agregar cliente'''
         val = False
         if tel != "" or mail != "":
             val = True
@@ -108,7 +111,8 @@ class VistaNewCliente(PanedWindow):
             messagebox.showinfo("", "Ingrese por lo menos 1 contacto")
         return val
 
-    def crear_objeto(self):
+    def add_cliente(self):
+        '''Persiste el cliente nuevo'''
         try:
             contacto = self.get_tel_entry().get()
             mail = self.get_email_entry().get()
@@ -117,7 +121,16 @@ class VistaNewCliente(PanedWindow):
             apellido = self.get_apellido_entry().get()
             direccion = self.get_direccion_entry().get()
             if(self.val_cli(documento, nombre, apellido) and self.val_cont(contacto, mail)):
-                new_cliente = Cliente(documento,nombre, apellido, contacto)
+                cliente = Cliente(documento,nombre, apellido, contacto)
         except Exception as e:
             messagebox.showerror('Error', e)
-        return new_cliente
+        return Cliente.guardar(cliente)
+
+        
+
+
+#Configuracion de Boton
+def color_change(self):
+    """Changes the button's color"""
+
+    self.button.configure()

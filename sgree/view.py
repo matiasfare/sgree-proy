@@ -169,8 +169,6 @@ class View(Frame):
 #---------------Utils---------------------
     def salir(self):
         if(messagebox.askyesno("Salir", "Desea terminar la ejecucion?")):
-            #self.quit()
-            #gestionador.guardar_datos()
             exit()
 
     def clear(self):
@@ -200,8 +198,6 @@ class View(Frame):
         form = VistaNewCliente(self.__panel_master)
         self.__vista_actual = form
 
-
 #------------------------Vistas Optener Datos---------------------
-
 
 

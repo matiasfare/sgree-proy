@@ -18,7 +18,7 @@ class Cliente(Persona,Persistent):
         self.nombre = nombre
         self.apellido = apellido
         self.documento = documento
-        self.contacto.append(contacto)
+        self.contacto = contacto
 
 class Tecnico(Persona,Persistent):
     '''Clase para un Tecnico'''

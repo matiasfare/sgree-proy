@@ -17,6 +17,7 @@ class Model(persistent.Persistent):
         '''Retorna todos los objetos que pertenezcan a la Clave del Diccionario'''
         db = MiZODB('sgree-data.fs')
         dbroot = db.raiz
+
         for i in self.diccionarios:
             try:
                 if str(i) in dbroot:
@@ -36,23 +37,34 @@ class Model(persistent.Persistent):
         pass
 
 
-    def crear(self,object,dic,clave):
+    def guardar(self, obj, clave, dic):
         '''Persiste un objeto, teniendo en cuenta a que dic, pertenece'''
         
                 
         db = MiZODB('sgree-data.fs')
         dbroot = db.raiz
-        for i in self.diccionarios:
-            try:
-                #crea el diccionario si este no existe
-                if not str(i) in dbroot:
-                    dbroot[i] = {}
-            except KeyError:
-                print("La clave es invalida")
-            dicionario_actual = dbroot[dic]
-            dicionario_actual[clave] = object
-            transaction.commit()
+
+        if not dic in dbroot:
+            dbroot[dic] = {}
+            sub_dic = dbroot[dic]
+            sub_dic[clave] = obj
+            dbroot[dic] = sub_dic
+        elif dic in dbroot:
+            sub_dic = dbroot[dic]
+            if not clave in sub_dic:
+                sub_dic[clave] = obj
+                dbroot[dic] = sub_dic
+            elif clave in sub_dic:
+                print ('Ya existe este Dato')
         
+        
+        transaction.commit()
+
+        for dic in dbroot:
+            dic2 = dbroot[dic]
+            for lo in dic2:
+                obje = dic2[lo]
+                print(str(lo) + ":" + obje.nombre + ", " + obje.apellido)
 
         # if not self.key in dbroot.keys():
         #     dbroot[self.key] = [+object]
@@ -62,9 +74,18 @@ class Model(persistent.Persistent):
         #     #len retorna numero de items en un contenedor
         #     idx = len(recursos)
         db.close()
-        return dicionario_actual
-    
+        return sub_dic
 
+model = Model()
+
+cliente2 = Cliente(57434,'Elias','Fare', '0981135750')
+
+dic = model.guardar(cliente2,cliente2.documento,'Clientes')
+
+
+# for clave in dic:
+#     obj = dic[clave]
+#     print(str(clave) + ":" + obj.nombre + ", " + obj.apellido)
 
         
 # class View():
