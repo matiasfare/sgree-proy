@@ -67,122 +67,82 @@ class Model(persistent.Persistent):
 
 
         
-class View():
+# class View():
         
-    def vista_crear_recibo(self):
-        '''Intereactua con le usuario asi obtener datos necesarios para crear objeto Recibo '''
-        print ("----------CREAR RECIBO-------------!\n")
-        fecha = time.strftime("%F")
-        print(fecha+"\n")
-        dispositivo = input("Ingrese Tipo de Dispositivo: ")
-        tecnico = input("Tecnico: ")
-        presupuesto = input("Ingrese Presupuesto(Variable):")
-        validez = input("Validez de la Ficha(en dias): ")
-        observacion = input("Ingrese Observacion: ")
-        nuevo_recibo = Recibo(fecha,presupuesto,validez,tecnico,observacion,dispositivo)
-        return nuevo_recibo
+#     def vista_crear_recibo(self):
+#         '''Intereactua con le usuario asi obtener datos necesarios para crear objeto Recibo '''
+#         print ("----------CREAR RECIBO-------------!\n")
+#         fecha = time.strftime("%F")
+#         print(fecha+"\n")
+#         dispositivo = input("Ingrese Tipo de Dispositivo: ")
+#         tecnico = input("Tecnico: ")
+#         presupuesto = input("Ingrese Presupuesto(Variable):")
+#         validez = input("Validez de la Ficha(en dias): ")
+#         observacion = input("Ingrese Observacion: ")
+#         nuevo_recibo = Recibo(fecha,presupuesto,validez,tecnico,observacion,dispositivo)
+#         return nuevo_recibo
 
 
-    def vista_agregar_cliente(self):
-        '''Intereactua con le usuario asi obtener datos necesarios para crear objeto Cliente '''
-        print("----------CREAR CLIENTE-------------!\n")
-        cedula  = input("Ingrese documento del nuevo Cliente: ")
-        nombre = input("Ingrese el nombre del nuevo Cliente:")
-        apellido = input("ingrese el apellido del nuevo Cliente:")
-        contacto = input ("Ingrese numero de contacto: ")
-        nuevo_cliente = Cliente(cedula, nombre, apellido, contacto)
-        return nuevo_cliente
+#     def vista_agregar_cliente(self):
+#         '''Intereactua con le usuario asi obtener datos necesarios para crear objeto Cliente '''
+#         print("----------CREAR CLIENTE-------------!\n")
+#         cedula  = input("Ingrese documento del nuevo Cliente: ")
+#         nombre = input("Ingrese el nombre del nuevo Cliente:")
+#         apellido = input("ingrese el apellido del nuevo Cliente:")
+#         contacto = input ("Ingrese numero de contacto: ")
+#         nuevo_cliente = Cliente(cedula, nombre, apellido, contacto)
+#         return nuevo_cliente
 
 
-    def vista_listar(self, lista):
-        '''Recibe como parametro una lista clientes e imprime en pantalla todos sus elementos'''
-        print('Listado de personas en la base de datos: \n')
-        # try:
-        #     for clave in lista:
-        #         obj = lista[clave]
-        #         print('CI: ', clave, ', Apellido: ', obj.apellido, ', Nombre: ', obj.nombre, ', Contacto', obj.contacto, '\n')
-        # except KeyError:
-        #     print("Error de Clave")
-        for clave in lista:
-            print (clave, ":", lista[clave].nombre, ", ", lista[clave].apellido)
+#     def vista_listar(self, lista):
+#         '''Recibe como parametro una lista clientes e imprime en pantalla todos sus elementos'''
+#         print('Listado de personas en la base de datos: \n')
+#         # try:
+#         #     for clave in lista:
+#         #         obj = lista[clave]
+#         #         print('CI: ', clave, ', Apellido: ', obj.apellido, ', Nombre: ', obj.nombre, ', Contacto', obj.contacto, '\n')
+#         # except KeyError:
+#         #     print("Error de Clave")
+#         for clave in lista:
+#             print (clave, ":", lista[clave].nombre, ", ", lista[clave].apellido)
 
                    
 
 
-    # def vista_listar_recibos(self, lista_recibo):
-    #     '''Recibe como parametro la lista de recibos e imprime en pantalla'''
-    #     print('Listado de Recibos en la base de datos: \n')
-    #     if lista_recibo:
-    #         for Recibo in lista_recibo[]:
-    #             print('Fecha: ', Recibo.fecha, '\n Presupuesto : ', Recibo.validez, 'dias', ',\n Tecnico: ', Recibo.tecnico)
+#     # def vista_listar_recibos(self, lista_recibo):
+#     #     '''Recibe como parametro la lista de recibos e imprime en pantalla'''
+#     #     print('Listado de Recibos en la base de datos: \n')
+#     #     if lista_recibo:
+#     #         for Recibo in lista_recibo[]:
+#     #             print('Fecha: ', Recibo.fecha, '\n Presupuesto : ', Recibo.validez, 'dias', ',\n Tecnico: ', Recibo.tecnico)
 
 
-    def vista_buscar_por_cedula(self):
-        '''Pide al usuario ingresar el numero de documento a buscar'''
-        cedula = input("Ingrese el numero de documento de la persona a buscar: ")
-        return cedula
+#     def vista_buscar_por_cedula(self):
+#         '''Pide al usuario ingresar el numero de documento a buscar'''
+#         cedula = input("Ingrese el numero de documento de la persona a buscar: ")
+#         return cedula
 
 
-    def vista_imprimir_persona_buscada_por_cedula(self, resultado):
-        '''Recibe como paremetro el resultado de la busqueda e imprime en pantalla'''
-        print("La persona encontrada es: ", resultado)
+#     def vista_imprimir_persona_buscada_por_cedula(self, resultado):
+#         '''Recibe como paremetro el resultado de la busqueda e imprime en pantalla'''
+#         print("La persona encontrada es: ", resultado)
 
 
-    def vista_imprimir_recibo(self, resultado):
-        '''Recibe como paremetro un objeto Recibo e imprime en pantalla'''
-        print("El recibo creado es: ", resultado)
+#     def vista_imprimir_recibo(self, resultado):
+#         '''Recibe como paremetro un objeto Recibo e imprime en pantalla'''
+#         print("El recibo creado es: ", resultado)
 
 
-    # def selecionar_tecnico(self):
-    #     '''selecciona tenico para la ficha busca en la bd.
-    #      si el tecnico seleccionado existe o no, en caso que exista lo retorna'''
-    #     listar_tecnicos()
-    #     op = input_entero()
-    #     # try op =! int:
-    #     #     op = lee_entero()
-    #     # else:
-    #     # pass
-    #     return op
+#     # def selecionar_tecnico(self):
+#     #     '''selecciona tenico para la ficha busca en la bd.
+#     #      si el tecnico seleccionado existe o no, en caso que exista lo retorna'''
+#     #     listar_tecnicos()
+#     #     op = input_entero()
+#     #     # try op =! int:
+#     #     #     op = lee_entero()
+#     #     # else:
+#     #     # pass
+#     #     return op
 
 
-class Controller(persistent.Persistent):
-        def __init__(self):
-            '''Clase controlador De: Modelo y Vista'''
-            self.model = Model()
-            self.view = View()
-
-        def crear_recibo(self):
-            '''Controlador que se comunica con la vista y el modelo para Agregar o Crear Recibo'''
-            new_recibo = self.view.vista_crear_recibo()
-            recibo = self.model.persistir_objeto(new_recibo,'recibo')
-            self.vista_imprimir_recibo_guardado(recibo)
-
-        def agregar_cliente(self):
-            '''Controlador que llama al modelo y la vista para agregar un Cliente'''
-            cliente = self.view.vista_agregar_cliente()
-            obj = self.model.crear(cliente,'Clientes',cliente.documento)
-            print (obj.apellido, obj.nombre, obj.documento, obj.contacto)
-
-        def listar_clientes(self):
-            '''Controlador que se comunica con la vista y el modelo para listar Clientes'''
-            lista = self.model.obtener_lista('Clientes')
-            self.view.vista_listar(lista)
-
-        def buscar_por_cedula(self):
-            '''Controlador que se comunica con la vista y el modelo para Buscar Cliente por Cedula'''
-            cedula = self.view.vista_buscar_por_cedula()
-            respuesta = self.model.buscar_por_cedula(cedula)
-            self.view.vista_imprimir_persona_buscada_por_cedula(respuesta)
-
-        def listar_recibos(self):
-            '''Imprime Solo Recibos existentes'''
-            lista_recibos = self.model.listar_recibos('recibo')
-            self.vista_listar_recibos(lista_recibos)
-            return lista_recibos
-
-mi_app = Controller()
-
-#mi_app.agregar_cliente()
-
-mi_app.listar_clientes()
 
