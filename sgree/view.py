@@ -3,8 +3,11 @@
 from tkinter import *
 from tkinter import messagebox
 from view_cliente import *
+from view_recibo import *
+
 from tkinter import ttk
-import model
+
+
 #Resolucion y pocicion de Ventana Principal
     #Principal
 resol_poc_vp = '700x500+150+100'
@@ -14,12 +17,7 @@ TITULO = 'SGREE'
 #Color de la Ventana
 bgC = "Beige"
 
-root = Tk()
 
-def donothing():
-   filewin = Toplevel(root)
-   button = Button(filewin, text="Do nothing button")
-   button.pack()
 
 class View(Frame):
 
@@ -47,14 +45,14 @@ class View(Frame):
         menu_cliente.add_command(label="Agregar cliente",
             command = self.add_cliente)
         menu_cliente.add_command(label="Eliminar cliente",
-            command = self.info)
+            command = self.del_cliente)
         menu_cliente.add_command(label="Listar clientes", 
-            command = self.info)
+            command = list_cliente)
         menubar.add_cascade(label="Clientes", menu = menu_cliente)
 
         menu_asesor = Menu(menubar, tearoff=0)
-        menu_asesor.add_command(label="Recibo",
-            command = self.info)
+        menu_asesor.add_command(label="Crear Recibo",
+            command = self.add_recibo)
         menu_asesor.add_command(label="Eliminar Recibo",
             command = self.info)
         menu_asesor.add_command(label="Listar Recibos",
@@ -195,8 +193,23 @@ class View(Frame):
 
     def add_cliente(self):
         self.clear()  
-        form = VistaNewCliente(self.__panel_master)
+        form = ViewNewCliente(self.__panel_master)
         self.__vista_actual = form
+
+    def add_recibo(self):
+        self.clear()  
+        form = ViewNewRecibo(self.__panel_master)
+        self.__vista_actual = form
+    
+    def del_cliente(self):
+        self.clear()  
+        form = ViewDelCliente(self.__panel_master)
+        self.__vista_actual = form
+
+    # def listar_cliente(self):
+    #     self.clear()  
+    #     form = ViewDelCliente(self.__panel_master)
+    #     self.__vista_actual = form
 
 #------------------------Vistas Optener Datos---------------------
 

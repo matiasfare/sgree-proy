@@ -1,15 +1,27 @@
 # -*- coding: utf-8 -*-
 #-----------------------------------CONTROLLER-------------------------------------------------
 import model as Model
-import view as View
+from view import *
+import os, sys
 from persistent import Persistent
 
 class Controller(Persistent): 
-        def __init__(self):
-            '''Clase controlador De: Modelo y Vista'''
-            self.model = Model.Model()
-            self.view = View.View()
-            
+    def __init__(self):
+        '''Clase controlador De: Modelo y Vista'''
+        self.model = Model()
+
+    def add_cliente(self):
+        self.clear()  
+        form = VistaNewCliente(self.__panel_master)
+        self.__vista_actual = form
+
+    def add_recibo(self):
+        self.clear()  
+        form = VistaNewRecibo(self.__panel_master)
+        self.__vista_actual = form 
+
+    def solicitar_datos():
+        self.model.obtener_lista()
             
 
         # def crear_recibo(self):

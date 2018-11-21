@@ -14,7 +14,11 @@ class Ficha(metaclass=ABCMeta):
 class Recibo(Ficha,Persistent):
     '''Clase Recibo'''
     #Variable de clase
+    tipo = "Recibos"
     dispositivo = []
+    def get_clave(self):
+        return self.tipo
+    
     def __init__(self, fecha, presupuesto, validez, tecnico, observacion, dispositivo):
         self.fecha = fecha
         self.presupuesto = presupuesto
@@ -23,3 +27,4 @@ class Recibo(Ficha,Persistent):
         self.observacion = observacion
         self.dispositivo = dispositivo
         #self.dispositivo.append(dispositivo)
+    

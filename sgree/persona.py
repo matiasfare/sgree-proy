@@ -4,16 +4,23 @@ from persistent import Persistent
 
 class Persona(metaclass=ABCMeta):
     '''Clase Abstracta persona'''
+    clave = 'Persona'
     @abstractmethod
     def __init__ (self, documento, nombre, apellido):
         self.nombre = nombre
         self.apellido = apellido
         self.documento = documento
+    def getClave(self):
+        pass
 
 class Cliente(Persona,Persistent):
     '''Clase para crear un Cliente'''
-    tipo = "cliente"
+    tipo = "Clientes"
     contacto = []
+    
+    def getClave(self):
+        return self.clave
+
     def __init__(self, documento, nombre, apellido, contacto):
         self.nombre = nombre
         self.apellido = apellido
@@ -22,10 +29,14 @@ class Cliente(Persona,Persistent):
 
 class Tecnico(Persona,Persistent):
     '''Clase para un Tecnico'''
-    tipo = "tecnico"
+    tipo = "Tecnicos"
+    
     def __init__(self, documento, nombre, apellido,contacto, dispositivos):
         self.nombre = nombre
         self.apellido = apellido
         self.documento = documento
         self.contacto = contacto
         self.dispositivos = dispositivos
+    
+    def getClave(self):
+        return self.tipo

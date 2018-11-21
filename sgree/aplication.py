@@ -2,6 +2,8 @@ from view import View
 import tkinter as tk
 
 root = tk.Tk()
+vista_principal = View(root)
+root.mainloop()
 
 # def main():
 #     mi_app = View(root)
@@ -17,7 +19,3 @@ root = tk.Tk()
 # c.buscar_recibo()
 # c.editar_recibo()
 # c.listar_recibos()
-
-root = tk.Tk()
-vista_principal = View(root)
-root.mainloop()
