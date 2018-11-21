@@ -14,5 +14,7 @@ Para inciar se debe ejecutar el archivo aplication.py
 con el comando 
 $python3 -m sgree.aplication.py
 
+En la barra de Menus se pueden visualizar todas la acciones que se pueden realizar con el Sistema
+
 
 

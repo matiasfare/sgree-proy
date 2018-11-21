@@ -6,3 +6,13 @@ sgree/sgree-data.fs.tmp
 sgree/__pycache__/ficha.cpython-36.pyc
 sgree/__pycache__/myzodb.cpython-36.pyc
 sgree/__pycache__/persona.cpython-36.pyc
+sgree/__pycache__/view.cpython-36.pyc
+sgree/__pycache__/contacto.cpython-36.pyc
+sgree/__pycache__/model.cpython-36.pyc
+sgree/__pycache__/view_cliente.cpython-36.pyc
+sgree/__pycache__/view_recibo.cpython-36.pyc
+sgree/__pycache__/view_utils.cpython-36.pyc
+sgree-data.fs
+sgree-data.fs.index
+sgree-data.fs.lock
+sgree-data.fs.tmp
