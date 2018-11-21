@@ -53,7 +53,7 @@ class View(Frame):
         menu_asesor.add_command(label="Crear Recibo",
             command = self.add_recibo)
         menu_asesor.add_command(label="Eliminar Recibo",
-            command = self.info)
+            command = self.del_recibo)
         menu_asesor.add_command(label="Listar Recibos",
             command = list_recibos)
         menubar.add_cascade(label="Recibos", menu = menu_asesor)
@@ -203,6 +203,11 @@ class View(Frame):
     def del_cliente(self):
         self.clear()  
         form = ViewDelCliente(self.__panel_master)
+        self.__vista_actual = form
+
+    def del_recibo(self):
+        self.clear()  
+        form = ViewDelRecibo(self.__panel_master)
         self.__vista_actual = form
 
     # def listar_cliente(self):
