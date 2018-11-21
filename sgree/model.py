@@ -13,17 +13,22 @@ from persona import Cliente,Tecnico
 class Model(persistent.Persistent):
     diccionarios = ['Clientes', 'Recibos','Tecnicos','Contactos']
 
-    def obtener_lista(self,dic):
+    def obtener_objetos(self,dic):
         '''Retorna todos los objetos que pertenezcan a la Clave del Diccionario'''
         db = MiZODB('sgree-data.fs')
         dbroot = db.raiz
 
-        if not dic in dbroot:
+        if dic in dbroot:
             sub_dic = dbroot[dic]
-            resul = sub_dic
+            resul = sub_dic.copy()
+            for key in resul:
+                obj = resul[key]   
+                print(obj.documentos + ", " + obj.nombre)
         elif not dic in dbroot:
             resul = "La clave es invalida" 
             print(resul)
+        
+        db.close()
         return resul
 
 
@@ -44,16 +49,16 @@ class Model(persistent.Persistent):
             sub_dic = dbroot[dic]
             sub_dic[clave] = obj
             dbroot[dic] = sub_dic
-            resul = sub_dic
+            resul = True
         #si el dic ya existe, verifica si el dato ya existe, si no es asi, lo guarda
         elif dic in dbroot:
             sub_dic = dbroot[dic]
             if not clave in sub_dic:
                 sub_dic[clave] = obj
                 dbroot[dic] = sub_dic
-                resul = sub_dic
+                resul = True
             elif clave in sub_dic:
-                resul = 'Ya existe este Dato'
+                resul = False
                 print ('Ya existe este Dato')
         
         
