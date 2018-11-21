@@ -22,15 +22,12 @@ class Model(persistent.Persistent):
         if dic in dbroot:
             sub_dic = dbroot[dic]
             resul = copy.copy(sub_dic)
-            print(resul)
             for key in resul:
                 lis = []
                 obj = copy.copy(resul[key])
-                print(obj.documento + "Hola")
                 lis.append(obj)            
         elif not dic in dbroot:
             resul = "La clave es invalida" 
-            print(resul)
         transaction.commit()
         db.close()
         return resul
@@ -87,20 +84,14 @@ class Model(persistent.Persistent):
                 print ('No existe este Dato')
         transaction.commit()
         db.close()
-        # return resul
-        # if dic in dbroot:
-        #     sub_dic = dbroot[dic]
-        #     if  clave in sub_dic:
-        #         del sub_dic[clave]
-        #         resul = True 
-        #     elif not clave in sub_dic:
-        #         resul = False 
-        #         print ('No existe Clave')
-         
-        # transaction.commit()
-        # db.close()
         return resul
+        
 
+
+
+
+
+#---------------------MODEL MVC PRIMER PARCIAL--------------------------------
 # model = Model()
 
 # cliente2 = Cliente(57434,'Elias','Fare', '0981135750')

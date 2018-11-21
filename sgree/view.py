@@ -15,9 +15,8 @@ resol_poc_vp = '700x500+150+100'
 resol_pc_vs = '600x300+200+160'
 TITULO = 'SGREE'
 #Color de la Ventana
-bgC = "Beige"
-
-
+fondo = "Beige"
+buttom_color = 'lime green'
 
 class View(Frame):
 
@@ -37,7 +36,7 @@ class View(Frame):
         self.__panel_master.title(TITULO)
         self.__panel_master.protocol("WM_DELETE_WINDOW", "onexit")
         self.__panel_master.resizable(0, 0)
-        self.__panel_master.config(bg=bgC)
+        self.__panel_master.config(bg=fondo)
         menubar = Menu(self.__panel_master)
         self.__panel_master.config(menu=menubar)
 
@@ -56,7 +55,7 @@ class View(Frame):
         menu_asesor.add_command(label="Eliminar Recibo",
             command = self.info)
         menu_asesor.add_command(label="Listar Recibos",
-            command = self.info)
+            command = list_recibos)
         menubar.add_cascade(label="Recibos", menu = menu_asesor)
 
         menu_soli = Menu(menubar, tearoff=0)

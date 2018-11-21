@@ -5,11 +5,13 @@ from persona import Cliente
 from ficha import Recibo
 from contacto import *
 from model import Model
+from view_utils import *
+import random
 import sys, os, time
 tipo = 'Recibos'
 
-fondo = 'light blue'
-button_color = 'lime green'
+fondo = 'lime green'
+buttom_color = 'lime green'
 
 class ViewNewRecibo(PanedWindow):
     '''Panel para crear un Recibo'''
@@ -43,9 +45,9 @@ class ViewNewRecibo(PanedWindow):
         Label(self, text="Presupuesto*: ").grid(row = 5, column = 1)
 
         Label(self, text="----------IMPORTANTE----------").grid(row = 6, column = 2)
-        Label(self, text="Dispositivo: ").grid(row = 7, column = 2 )
+        Label(self, text="Dispositivo(imeil): ").grid(row = 7, column = 2 )
         Label(self, text="Cliente: ").grid(row = 8, column = 2)
-        Button(self, text="GUARDAR", command = self.add_recibo, bg = button_color).grid(row = 15, column = 3,  sticky = W)
+        Button(self, text="GUARDAR", command = self.add_recibo, bg = buttom_color).grid(row = 15, column = 3,  sticky = W)
 
         self.get_fecha_entry()
         self.get_observacion_entry()
@@ -59,10 +61,12 @@ class ViewNewRecibo(PanedWindow):
     def get_fecha_entry(self):
         '''Cuadro de texto cliente-dato fecha'''
         if not self.fecha_entry:
-            self.fecha_entry = Entry(master = self, width = 20)
-            self.fecha_entry.grid(row = 1 , column = 3)
+            
+            Label(self, text=" "+ self.date).grid(row = 1, column = 3)
+            # self.fecha_entry = Entry(master = self, width = 20)
+            # self.fecha_entry.grid(row = 1 , column = 3)
             self.fecha_entry = self.date
-            print (self.date)
+            # print (self.date)
         return self.fecha_entry
 
 
@@ -70,7 +74,7 @@ class ViewNewRecibo(PanedWindow):
         '''Cuadro de texto cliente-dato Observacion'''
         if not self.observacion_entry:
             self.observacion_entry = Entry(master = self, width = 20)
-            self.observacion_entry.grid(row = 3, column = 2)
+            self.observacion_entry.grid(row = 2, column = 2)
         return self.observacion_entry
 
 
@@ -78,7 +82,7 @@ class ViewNewRecibo(PanedWindow):
         '''Cuadro de texto cliente-dato Validez'''
         if not self.validez_entry:
             self.validez_entry = Entry(master = self, width = 20)
-            self.validez_entry.grid(row = 4, column = 2)
+            self.validez_entry.grid(row = 3, column = 2)
         return self.validez_entry
 
 
@@ -86,7 +90,7 @@ class ViewNewRecibo(PanedWindow):
         '''Cuadro de texto cliente-dato Tecnico'''
         if not self.tecnico_entry:
             self.tecnico_entry = Entry(master = self, width = 20)
-            self.tecnico_entry.grid(row = 5, column = 2)
+            self.tecnico_entry.grid(row = 4, column = 2)
         return self.tecnico_entry
     
 
@@ -94,7 +98,7 @@ class ViewNewRecibo(PanedWindow):
         '''Cuadro de texto cliente-dato Presupuesto'''
         if not self.presupuesto_entry:
             self.presupuesto_entry = Entry(master = self, width = 20)
-            self.presupuesto_entry.grid(row = 7, column = 3)
+            self.presupuesto_entry.grid(row = 5, column = 2)
         return self.presupuesto_entry
 
 
@@ -103,7 +107,7 @@ class ViewNewRecibo(PanedWindow):
         '''Cuadro de texto cliente-dato Dispositivo'''
         if not self.dispositivo_entry:
             self.dispositivo_entry = Entry(master = self, width = 20)
-            self.dispositivo_entry.grid(row = 8, column = 3)
+            self.dispositivo_entry.grid(row = 7, column = 3)
         return self.dispositivo_entry
     
     def get_cliente_entry(self):
@@ -117,7 +121,7 @@ class ViewNewRecibo(PanedWindow):
     def val_recibo(self, fecha, obs, vali, tec, cli):
         '''Valida los Datos del Nuevo Recibo'''
         val = False
-        if vali.isdigit() and obs != "" and tec != "" and cli != "":
+        if obs != "" and tec != "" and cli != "":
             val = True
         else:
             messagebox.showinfo("", "Ingrese correctamente los datos del " + "Recibo")
@@ -132,11 +136,11 @@ class ViewNewRecibo(PanedWindow):
     #     else:
     #         messagebox.showinfo("", "Ingrese por lo menos 1 contacto")
     #     return val
-
+   
     def add_recibo(self):
         '''Persiste nuevo Recibo, si esta correctamente cargado'''
         try:
-            fecha = self.get_fecha_entry().get()
+            fecha = self.date
             observacion = self.get_observacion_entry().get()
             validez = self.get_validez_entry().get()
             tecnico = self.get_tecnico_entry().get()
@@ -144,11 +148,16 @@ class ViewNewRecibo(PanedWindow):
             dispositivo = self.get_dispositivo_entry().get()
             cliente = self.get_cliente_entry().get()
             key = cliente
+
              
             
             if(self.val_recibo(fecha, observacion, validez, tecnico, cliente)):
+                lista_rec = []
                 recibo = Recibo(fecha, presupuesto, validez, tecnico, observacion, dispositivo)
-                resul = self.model.guardar(recibo,key,tipo)
+                recibos = self.model.obtener_objetos(tipo)
+                lista_rec.append(recibo)
+                recibos[key] = lista_rec
+                resul = self.model.guardar(recibos,key,tipo)
                 if  resul == True :
                     messagebox.showinfo("", "Se Guardo con Exito")
                     self.destroy()
@@ -156,5 +165,40 @@ class ViewNewRecibo(PanedWindow):
                     messagebox.showinfo("", "Error, ya existe Recibo")
            
         except Exception as e:
+            print(e)
             messagebox.showerror('Error', e)
         return True
+
+
+def list_recibos():
+    """Genera una lista con los datos de los Recibos"""
+    datos = ['------====== RECIBOS ======------']
+    bucle = 1
+    model = Model()
+    recibos = {}
+    recibos = model.obtener_objetos(tipo)
+    print(recibos.keys())
+    for key in recibos:
+        # print(key.nombre)
+        rec = recibos[key]
+        datos.append("{}- Fecha: {}".format(bucle, rec.fecha))
+        datos.append("     Cliente: {}".format(rec.cliente))
+        datos.append("     Tecnico: {}".format(rec.tecnico))
+        datos.append("     Presupuesto: {}".format(rec.presupuesto))        
+        # datos.append("     Direccion: {}".format(rec.direccion))
+        datos.append("     Observacion: ")
+        # if rec.contactos:
+        datos.append("     ----- : {}".format(rec.observacion))
+            # datos.append("     -----Email: {}".format(rec.contactos.email))
+        datos.append("")
+        datos.append("")
+        bucle += 1      
+    list_datos(datos)
+
+
+
+# root = Tk()
+
+# ad = ViewNewRecibo(root)
+
+# list_recibos()

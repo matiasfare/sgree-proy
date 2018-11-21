@@ -16,8 +16,8 @@ class Recibo(Ficha,Persistent):
     #Variable de clase
     tipo = "Recibos"
     dispositivo = []
-    def get_clave(self):
-        return self.tipo
+    # def get_clave(self):
+    #     return self.tipo
     
     def __init__(self, fecha, presupuesto, validez, tecnico, observacion, dispositivo):
         self.fecha = fecha

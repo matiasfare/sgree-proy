@@ -5,8 +5,8 @@ from contacto import *
 from model import Model
 from view_utils import *
 fondo = 'light blue'
-buttombg = 'lime green'
 tipo = 'Clientes'
+buttom_color = 'lime green'
 
 class ViewNewCliente(PanedWindow):
     """Panel para introducir los datos de un cliente"""
@@ -38,7 +38,7 @@ class ViewNewCliente(PanedWindow):
         Label(self, text="DATOS OPCIONALES").grid(row=6, column=2)
         Label(self, text="Direccion: ").grid(row = 7, column =2 )
         Label(self, text="Email: ").grid(row = 8, column = 2)
-        Button(self, text="GUARDAR", command = self.add_cliente, bg = buttombg).grid(row = 15, column = 3,  sticky = W)
+        Button(self, text="GUARDAR", command = self.add_cliente, bg = buttom_color).grid(row = 15, column = 3,  sticky = W)
 
         self.get_documento_entry()
         self.get_nombre_entry()
@@ -193,8 +193,6 @@ def list_cliente():
     for key in clientes:
         # print(key.nombre)
         cli = clientes[key]
-        print(cli.nombre)
-        print(key)
         datos.append("{}- Cedula: {}".format(bucle, cli.documento))
         datos.append("     Nombre: {}".format(cli.nombre))
         datos.append("     Apellido: {}".format(cli.apellido))
@@ -205,19 +203,5 @@ def list_cliente():
             # datos.append("     -----Email: {}".format(cli.contactos.email))
         datos.append("")
         datos.append("")
-        bucle += 1
-        
-        # if isinstance(cli, Cliente):
-        #     # print(cli)
-        #     datos.append("{}- Cedula: {}".format(bucle, cli.documento))
-        #     datos.append("     Nombre: {}".format(cli.nombre))
-        #     datos.append("     Apellido: {}".format(cli.apellido))
-        #     # datos.append("     Direccion: {}".format(cli.direccion))
-        #     datos.append("     Contactos: ")
-        #     # if cli.contactos:
-        #     datos.append("     -----Tel: {}".format(cli.contacto))
-        #         # datos.append("     -----Email: {}".format(cli.contactos.email))
-        #     datos.append("")
-        #     datos.append("")
-        #     bucle += 1        
+        bucle += 1      
     list_datos(datos)
