@@ -167,12 +167,18 @@ class ViewDelCliente(PanedWindow):
     def eliminar(self):
         try:
             key = int(self.get_soli_entry().get())
-            if(messagebox.askyesno("Eliminar", "Eliminar cliente?")):
-                self.model.eliminar_obj(key,tipo)
-                messagebox.showinfo("Eliminado", "Cliente eliminado")
-                self.destroy()
+            try:
+                if(messagebox.askyesno("Eliminar", "Eliminar cliente?")):
+                    resul = self.model.eliminar_obj(str(key),tipo)
+                    if(resul):
+                        messagebox.showinfo("Eliminado", "Cliente eliminado")
+                        self.destroy()
+                    else:
+                        messagebox.showerror("Info", "No existe cliente")
+            except Exception as e:
+                messagebox.showerror("Info", e)
         except:
-            messagebox.showerror("Info", "No existe cliente")
+            messagebox.showerror("Info", "Ingrese un numero Valido")
         
 
 
@@ -184,7 +190,8 @@ def list_cliente():
     clientes = model.obtener_objetos(tipo)
     
     for key in clientes:
-        cli = clientes[key]
+        cli = clientes[str(key)]
+        print(cli)
         datos.append("{}- Cedula: {}".format(bucle, cli.documento))
         datos.append("     Nombre: {}".format(cli.nombre))
         datos.append("     Apellido: {}".format(cli.apellido))

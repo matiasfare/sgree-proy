@@ -74,15 +74,28 @@ class Model(persistent.Persistent):
         # Si el diccionario existe borra la clave, si esta existe
         if dic in dbroot:
             sub_dic = dbroot[dic]
+            print(sub_dic)
             if  clave in sub_dic:
                 del sub_dic[clave]
-                resul = True 
+                dbroot[dic] = sub_dic
+                resul = True
             elif not clave in sub_dic:
-                resul = False 
-                print ('No existe Clave')
-         
+                resul = False
+                print ('No existe este Dato')
         transaction.commit()
         db.close()
+        # return resul
+        # if dic in dbroot:
+        #     sub_dic = dbroot[dic]
+        #     if  clave in sub_dic:
+        #         del sub_dic[clave]
+        #         resul = True 
+        #     elif not clave in sub_dic:
+        #         resul = False 
+        #         print ('No existe Clave')
+         
+        # transaction.commit()
+        # db.close()
         return resul
 
 # model = Model()
