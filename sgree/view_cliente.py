@@ -166,7 +166,7 @@ class ViewDelCliente(PanedWindow):
 
     def eliminar(self):
         try:
-            key = self.get_soli_entry().get()
+            key = int(self.get_soli_entry().get())
             if(messagebox.askyesno("Eliminar", "Eliminar cliente?")):
                 self.model.eliminar_obj(key,tipo)
                 messagebox.showinfo("Eliminado", "Cliente eliminado")
@@ -182,7 +182,7 @@ def list_cliente():
     bucle = 1
     model = Model()
     clientes = model.obtener_objetos(tipo)
-    print(clientes)
+    
     for key in clientes:
         cli = clientes[key]
         datos.append("{}- Cedula: {}".format(bucle, cli.documento))
@@ -196,4 +196,4 @@ def list_cliente():
         datos.append("")
         datos.append("")
         bucle += 1        
-    list_datos(datos)
+        list_datos(datos)
