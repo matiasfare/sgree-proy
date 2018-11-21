@@ -60,19 +60,11 @@ class Model(persistent.Persistent):
             elif clave in sub_dic:
                 resul = False
                 print ('Ya existe este Dato')
-        
-        
         transaction.commit()
-
-        # for dic in dbroot:
-        #     dic2 = dbroot[dic]
-        #     for lo in dic2:
-        #         obje = dic2[lo]
-        #         print(str(lo) + ":" + obje.nombre + ", " + obje.apellido)
         db.close()
         return resul
 
-    def eliminar(self,clave, dic):
+    def eliminar_obj(self,clave, dic):
         '''Elimina un objeto, teniendo en cuenta diccionario y clave al que pertenece'''
 
         #Abre base de datos  
