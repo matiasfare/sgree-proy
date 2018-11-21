@@ -1,7 +1,7 @@
 % Matias Fare C.I.: 5719493
 
 %%% =======================================================================
-%%% Hechos de los clientes. En todos los casos Y es la C.I. (Identificador)
+%%% Hechos de los Recibos. En todos los casos Y es la C.I. (Identificador)
 %%% =======================================================================
 
 % Hecho: es_nombre_de(X, Y) X es el nombre de Y es la C.I.

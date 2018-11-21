@@ -1,1 +1,8 @@
 sgree/relevamiento
+sgree/sgree-data.fs.index
+sgree/sgree-data.fs
+sgree/sgree-data.fs.lock
+sgree/sgree-data.fs.tmp
+sgree/__pycache__/ficha.cpython-36.pyc
+sgree/__pycache__/myzodb.cpython-36.pyc
+sgree/__pycache__/persona.cpython-36.pyc
