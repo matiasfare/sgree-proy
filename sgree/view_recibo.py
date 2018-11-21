@@ -61,12 +61,8 @@ class ViewNewRecibo(PanedWindow):
     def get_fecha_entry(self):
         '''Cuadro de texto cliente-dato fecha'''
         if not self.fecha_entry:
-            
             Label(self, text=" "+ self.date).grid(row = 1, column = 3)
-            # self.fecha_entry = Entry(master = self, width = 20)
-            # self.fecha_entry.grid(row = 1 , column = 3)
             self.fecha_entry = self.date
-            # print (self.date)
         return self.fecha_entry
 
 
@@ -213,12 +209,12 @@ class ViewDelRecibo(PanedWindow):
 
 def list_recibos():
     """Genera una lista con los datos de los Recibos"""
-    datos = ['------====== RECIBOS ======------']
+    datos = ['################ RECIBOS ###############']
     bucle = 1
     model = Model()
     recibos = {}
     recibos = model.obtener_objetos(tipo)
-    print(recibos.keys())
+    
     for key in recibos:
         # print(key.nombre)
         rec = recibos[key]

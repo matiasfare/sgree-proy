@@ -184,7 +184,7 @@ class ViewDelCliente(PanedWindow):
 
 def list_cliente():
     """Genera una lista con los datos de los clientes"""
-    datos = ['------======DETALLE CLIENTES======------']
+    datos = ['########### CLIENTES ############']
     bucle = 1
     model = Model()
     clientes = {}

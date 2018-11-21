@@ -45,20 +45,19 @@ class Model(persistent.Persistent):
         dbroot = db.raiz
         #Si el diccionario no Existe, lo crea y guarda el objeto
         if not dic in dbroot:
-            lista = []
-            dbroot[dic] = []
-            lista = dbroot[dic]
-            lista.append(obj)
-            dbroot[dic] = lista
+            sub_dic = {}
+            sub_dic = dbroot[dic]
+            sub_dic[clave] = obj
+            dbroot[dic] = sub_dic
             resul = True
         #si el dic ya existe, verifica si el dato ya existe, si no es asi, lo guarda
         elif dic in dbroot:
-            lista = dbroot[dic]
-            if not clave in lista:
-                lista.append(obj)
-                dbroot[dic] = lista
+            sub_dic = dbroot[dic]
+            if not clave in sub_dic:
+                sub_dic[clave] = obj
+                dbroot[dic] = sub_dic
                 resul = True
-            elif clave in lista:
+            elif clave in sub_dic:
                 resul = False
                 print ('Ya existe este Dato')
         transaction.commit()

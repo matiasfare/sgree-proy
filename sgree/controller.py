@@ -12,16 +12,23 @@ class Controller(Persistent):
 
     def add_cliente(self):
         self.clear()  
-        form = VistaNewCliente(self.__panel_master)
+        form = ViewNewCliente(self.__panel_master)
         self.__vista_actual = form
 
     def add_recibo(self):
         self.clear()  
-        form = VistaNewRecibo(self.__panel_master)
-        self.__vista_actual = form 
+        form = ViewNewRecibo(self.__panel_master)
+        self.__vista_actual = form
+    
+    def del_cliente(self):
+        self.clear()  
+        form = ViewDelCliente(self.__panel_master)
+        self.__vista_actual = form
 
-    def solicitar_datos():
-        self.model.obtener_lista()
+    def del_recibo(self):
+        self.clear()  
+        form = ViewDelRecibo(self.__panel_master)
+        self.__vista_actual = form
             
 
         # def crear_recibo(self):

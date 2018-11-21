@@ -10,10 +10,10 @@ from tkinter import ttk
 
 #Resolucion y pocicion de Ventana Principal
     #Principal
-resol_poc_vp = '700x500+150+100'
+resol_poc_vp = '500x250+200+150'
     #Secundaria
 resol_pc_vs = '600x300+200+160'
-TITULO = 'SGREE'
+TITULO = 'SGREE - Proyecto Paradigmas'
 #Color de la Ventana
 fondo = "Beige"
 buttom_color = 'lime green'
