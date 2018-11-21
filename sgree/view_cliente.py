@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-from persona import Cliente
+from persona import *
 from contacto import *
 from model import Model
 from view_utils import *
@@ -187,11 +187,14 @@ def list_cliente():
     datos = ['------======DETALLE CLIENTES======------']
     bucle = 1
     model = Model()
+    clientes = {}
     clientes = model.obtener_objetos(tipo)
-    
+    print(clientes.keys())
     for key in clientes:
-        cli = clientes[str(key)]
-        print(cli)
+        # print(key.nombre)
+        cli = clientes[key]
+        print(cli.nombre)
+        print(key)
         datos.append("{}- Cedula: {}".format(bucle, cli.documento))
         datos.append("     Nombre: {}".format(cli.nombre))
         datos.append("     Apellido: {}".format(cli.apellido))
@@ -202,5 +205,19 @@ def list_cliente():
             # datos.append("     -----Email: {}".format(cli.contactos.email))
         datos.append("")
         datos.append("")
-        bucle += 1        
-        list_datos(datos)
+        bucle += 1
+        
+        # if isinstance(cli, Cliente):
+        #     # print(cli)
+        #     datos.append("{}- Cedula: {}".format(bucle, cli.documento))
+        #     datos.append("     Nombre: {}".format(cli.nombre))
+        #     datos.append("     Apellido: {}".format(cli.apellido))
+        #     # datos.append("     Direccion: {}".format(cli.direccion))
+        #     datos.append("     Contactos: ")
+        #     # if cli.contactos:
+        #     datos.append("     -----Tel: {}".format(cli.contacto))
+        #         # datos.append("     -----Email: {}".format(cli.contactos.email))
+        #     datos.append("")
+        #     datos.append("")
+        #     bucle += 1        
+    list_datos(datos)

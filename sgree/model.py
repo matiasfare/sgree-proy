@@ -3,6 +3,7 @@ import os
 from myzodb import MiZODB, transaction
 import persistent
 from persona import Cliente
+import copy
 
 import time
 import sys, os
@@ -20,14 +21,17 @@ class Model(persistent.Persistent):
 
         if dic in dbroot:
             sub_dic = dbroot[dic]
-            resul = sub_dic.copy()
+            resul = copy.copy(sub_dic)
+            print(resul)
             for key in resul:
-                obj = resul[key]   
-                print(obj.documentos + ", " + obj.nombre)
+                lis = []
+                obj = copy.copy(resul[key])
+                print(obj.documento + "Hola")
+                lis.append(obj)            
         elif not dic in dbroot:
             resul = "La clave es invalida" 
             print(resul)
-        
+        transaction.commit()
         db.close()
         return resul
 
@@ -39,7 +43,6 @@ class Model(persistent.Persistent):
 
     def guardar(self, obj, clave, dic):
         '''Persiste un objeto, teniendo en cuenta diccionario y clave,objeto al que pertenece'''
-
         #Abre base de datos  
         db = MiZODB('sgree-data.fs')
         dbroot = db.raiz
@@ -66,7 +69,7 @@ class Model(persistent.Persistent):
 
     def eliminar_obj(self,clave, dic):
         '''Elimina un objeto, teniendo en cuenta diccionario y clave al que pertenece'''
-
+        MiZODB('sgree-data.fs').close()
         #Abre base de datos  
         db = MiZODB('sgree-data.fs')
         dbroot = db.raiz
