@@ -1,27 +1,78 @@
-class Cliente():
-    '''Clase para crear un Cliente'''
-    tipo = "cliente"
-    contactos = []
-    def __init__(self, documento, nombre, apellido, contacto):
-        self.nombre = nombre
-        self.apellido = apellido
-        self.documento = documento
-        self.contacto = contacto
+#Pruebas Calculo entre fechas
+from datetime import datetime, date, time, timedelta
+import calendar
 
-lista = []
+ahora = datetime.now()  # Obtiene fecha y hora actual
+# print("Fecha y Hora:", ahora)  # Muestra fecha y hora
+# print("Fecha y Hora UTC:",ahora.utcnow())  # Muestra fecha/hora UTC
+# print("Día:",ahora.day)  # Muestra día
+# print("Mes:",ahora.month)  # Muestra mes
+# print("Año:",ahora.year)  # Muestra año
+# print("Hora:", ahora.hour)  # Muestra hora
+# print("Minutos:",ahora.minute)  # Muestra minuto
+# print("Segundos:", ahora.second)  # Muestra segundo
+# print("Microsegundos:",ahora.microsecond)  # Muestra microsegundo
 
-cliente1 = Cliente(5749,'Matias','Fare', '0981135750')
-cliente2 = Cliente(5748,'Anibal','Fare', '0981135750')
+# print("Horas:")
+# hora1 = time(10, 5, 0)  # Asigna 10h 5m 0s
+# print("\tHora1:", hora1)
+# hora2 = time(23, 15, 0)  # Asigna 23h 15m 0s
+# print("\tHora2:", hora2)
 
-lista.append(cliente1)
-lista.append(cliente2)
+# # Compara horas
+# print("\tHora1 < Hora2:", hora1 < hora2)  # True
 
-#Si el objeto existe en la lista, imprime el ob y su posicion en la lista
+def convertir_a_fecha(cadena_fecha):
+    formato_fecha = "%Y-%m-%d"
+    #Aqui se toma el string del usuario y se convierte a tipo Datetime con el formato especificado
+    fecha= datetime.strptime(cadena_fecha, formato_fecha).date()
+    return fecha
 
-if cliente1 in lista:
-    print(cliente1)
-    indice = lista.index(cliente1)
-    print(indice)
+
+val = 5
+print("Calcula Validez:")
+print("Tiempo de Validez: ", val)
+fecharec = '2018-11-26'
+fecharec = convertir_a_fecha(fecharec)
+
+fecha1 = fecharec  + timedelta(days=val) # Recibe fecha del recibo y añade tiempo de validez, resultando la fecha de vencimiento
+
+print("\tFecha Vencimiento Recibo:", fecha1)
+
+# Suma a la fecha actual 2 días
+fecha2 = date.today()
+print("\tFecha Actual:", fecha2)
+
+# Compara fechas
+print("\tEs valido el Recibo:", fecha1 >= fecha2)  # Da Falso si ya vencio y True y aun es valido
+
+
+
+
+# class Cliente():
+#     '''Clase para crear un Cliente'''
+#     tipo = "cliente"
+#     contactos = []
+#     def __init__(self, documento, nombre, apellido, contacto):
+#         self.nombre = nombre
+#         self.apellido = apellido
+#         self.documento = documento
+#         self.contacto = contacto
+
+# lista = []
+
+# cliente1 = Cliente(5749,'Matias','Fare', '0981135750')
+# cliente2 = Cliente(5748,'Anibal','Fare', '0981135750')
+
+# lista.append(cliente1)
+# lista.append(cliente2)
+
+# #Si el objeto existe en la lista, imprime el ob y su posicion en la lista
+
+# if cliente1 in lista:
+#     print(cliente1)
+#     indice = lista.index(cliente1)
+#     print(indice)
 
 
 # diccionarios = {
