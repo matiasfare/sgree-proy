@@ -203,6 +203,47 @@ class ViewDelRecibo(PanedWindow):
         except:
             messagebox.showerror("Info", "Ingrese un numero Valido")
 
+class ViewEditRecibo(PanedWindow):
+    '''Panel para Editar Cliente'''
+    soli_entry = None
+
+    def __init__(self, panel_master):
+        PanedWindow.__init__(self, master=panel_master)
+        self.__panel_master = panel_master
+        self.inicializar()
+        self.model = Model()
+        self.pack()
+
+    def inicializar(self):
+        Label(self, text = "BORRAR RECIBO", ).grid(row = 1, column = 2)
+        Label(self, text = "Ingrese numero RECIBO*: ").grid(row = 2, column = 1)
+        Button(self, text = "Eliminar", command = self.eliminar).grid(
+            row = 3, column = 1)
+
+        self.get_soli_entry()
+
+    def get_soli_entry(self):
+        if not self.soli_entry:
+            self.soli_entry = Entry(master = self, width = 20)
+            self.soli_entry.grid(row = 2, column = 2)
+        return self.soli_entry
+
+    def eliminar(self):
+        try:
+            key = int(self.get_soli_entry().get())
+            try:
+                if(messagebox.askyesno("Eliminar", "Eliminar cliente?")):
+                    resul = self.model.eliminar_obj(str(key),tipo)
+                    if(resul):
+                        messagebox.showinfo("Eliminado", "Cliente eliminado")
+                        self.destroy()
+                    else:
+                        messagebox.showerror("Info", "No existe cliente")
+            except Exception as e:
+                messagebox.showerror("Info", e)
+        except:
+            messagebox.showerror("Info", "Ingrese un numero Valido")
+
 
 def list_recibos():
     """Genera una lista con los datos de los Recibos"""
