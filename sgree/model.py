@@ -13,32 +13,20 @@ from persona import Cliente,Tecnico
 
 class Model(persistent.Persistent):
     diccionarios = ['Clientes', 'Recibos','Tecnicos','Contactos']
-
-    def obtener_objetos(self,dic):
+    @staticmethod
+    def obtener_objetos(self):
         '''Retorna todos los objetos que pertenezcan a la Clave del Diccionario'''
         db = MiZODB('sgree-data.fs')
         dbroot = db.raiz
-
-        if dic in dbroot:
-            sub_dic = dbroot[dic]
-            resul = copy.copy(sub_dic)
-            for key in resul:
-                lis = []
-                obj = copy.copy(resul[key])
-                lis.append(obj)            
-        elif not dic in dbroot:
-            resul = "La clave es invalida" 
+        lista = []
+        for i in dbroot[self.get_clave(self)]:
+            lista.append(copy.copy(i))
         transaction.commit()
         db.close()
-        return resul
+        return lista
 
 
-    def editar(self):
-        '''Debe restortar el elemento a editar'''
-        pass
-
-
-    def guardar(self, obj, clave, dic):
+    def guardar(self, obj, dic):
         '''Persiste un objeto, teniendo en cuenta diccionario y clave,objeto al que pertenece'''
         #Abre base de datos  
         db = MiZODB('sgree-data.fs')
@@ -46,7 +34,7 @@ class Model(persistent.Persistent):
         #Si el diccionario no Existe, lo crea y guarda el objeto
         if not dic in dbroot:
             sub_lis = []
-            sub_lis = dbroot[dic]
+            dbroot[dic] = sub_lis
             sub_lis.append(obj)
             dbroot[dic] = sub_lis
             resul = True
@@ -60,6 +48,7 @@ class Model(persistent.Persistent):
         transaction.commit()
         db.close()
         return resul
+
 
     def eliminar_obj(self,clave, dic):
         '''Elimina un objeto, teniendo en cuenta diccionario y clave al que pertenece'''
@@ -82,7 +71,12 @@ class Model(persistent.Persistent):
         transaction.commit()
         db.close()
         return resul
-        
+
+    def editar(self):
+        '''Debe restortar el elemento a editar'''
+        pass
+
+
 
 
 
@@ -91,15 +85,23 @@ class Model(persistent.Persistent):
 #---------------------MODEL MVC PRIMER PARCIAL--------------------------------
 # model = Model()
 
-# cliente2 = Cliente(57434,'Elias','Fare', '0981135750')
+# cliente2 = Cliente(57434,'Matias','Fare', '0981135750')
 
-# dic = model.guardar(cliente2,cliente2.documento,'Clientes')
+# print(cliente2.getClave())
 
+# model.guardar(cliente2,cliente2.getClave())
 
-# for clave in dic:
-#     obj = dic[clave]
-#     print(str(clave) + ":" + obj.nombre + ", " + obj.apellido)
+# print(Cliente.getClave(Cliente))
 
+# lis = model.obtener_objetos(Cliente)
+
+# print(lis)
+# print(lis[0].nombre)
+
+# num = len(lis)
+# for obj in lis:
+#     print(obj.nombre+ ', '+ obj.apellido)
+    
         
 # class View():
         

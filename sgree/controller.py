@@ -1,35 +1,28 @@
 # -*- coding: utf-8 -*-
 #-----------------------------------CONTROLLER-------------------------------------------------
 import model as Model
-from view import *
+import view_cliente
+import view_recibo
 import os, sys
 from persistent import Persistent
 
 class Controller(Persistent): 
-    def __init__(self):
-        '''Clase controlador De: Modelo y Vista'''
-        self.model = Model()
+    # def __init__(self):
+    #     '''Clase controlador De: Modelo y Vista'''
+    #     self.model = Model()
+    #     self.view = View()
 
-    def add_cliente(self):
-        self.clear()  
-        form = ViewNewCliente(self.__panel_master)
-        self.__vista_actual = form
-
+    def con_add_cliente(self): 
+        # View.add_cliente(self)
+        pass
     def add_recibo(self):
-        self.clear()  
-        form = ViewNewRecibo(self.__panel_master)
-        self.__vista_actual = form
+        pass
     
     def del_cliente(self):
-        self.clear()  
-        form = ViewDelCliente(self.__panel_master)
-        self.__vista_actual = form
+        pass
 
     def del_recibo(self):
-        self.clear()  
-        form = ViewDelRecibo(self.__panel_master)
-        self.__vista_actual = form
-            
+        pass
 
         # def crear_recibo(self):
         #     '''Controlador que se comunica con la vista y el modelo para Agregar o Crear Recibo'''
@@ -37,11 +30,11 @@ class Controller(Persistent):
         #     recibo = self.model.persistir_objeto(new_recibo,'recibo')
         #     self.vista_imprimir_recibo_guardado(recibo)
 
-        def controll_add_cliente(self):
-            '''Controlador que llama al modelo y la vista para agregar un Cliente'''
-            cliente = self.view.add_cliente()
-            obj = self.model.crear(cliente,'Clientes',cliente.documento)
-            print (obj.apellido, obj.nombre, obj.documento, obj.contacto)
+        # def controll_add_cliente(self):
+        #     '''Controlador que llama al modelo y la vista para agregar un Cliente'''
+        #     cliente = self.view.add_cliente()
+        #     obj = self.model.crear(cliente,'Clientes',cliente.documento)
+        #     print (obj.apellido, obj.nombre, obj.documento, obj.contacto)
 
         # def listar_clientes(self):
         #     '''Controlador que se comunica con la vista y el modelo para listar Clientes'''
