@@ -36,14 +36,14 @@ class ViewNewCliente(PanedWindow):
         Label(self, text="Telefono.*: ").grid(row = 5, column = 1)
 
         Label(self, text="DATOS OPCIONALES").grid(row=6, column=2)
-        Label(self, text="Direccion: ").grid(row = 7, column =2 )
+        # Label(self, text="Direccion: ").grid(row = 7, column =2 )
         Label(self, text="Email: ").grid(row = 8, column = 2)
         Button(self, text="GUARDAR", command = self.add_cliente, bg = buttom_color).grid(row = 15, column = 3,  sticky = W)
 
         self.get_documento_entry()
         self.get_nombre_entry()
         self.get_apellido_entry()
-        self.get_direccion_entry()
+        # self.get_direccion_entry()
         self.get_tel_entry()
         self.get_email_entry()
     
@@ -80,12 +80,12 @@ class ViewNewCliente(PanedWindow):
         return self.tel_entry
     
 
-    def get_direccion_entry(self):
-        '''Cuadro de texto cliente-dato Direccion'''
-        if not self.direccion_entry:
-            self.direccion_entry = Entry(master = self, width = 20)
-            self.direccion_entry.grid(row = 7, column = 3)
-        return self.direccion_entry
+    # def get_direccion_entry(self):
+    #     '''Cuadro de texto cliente-dato Direccion'''
+    #     if not self.direccion_entry:
+    #         self.direccion_entry = Entry(master = self, width = 20)
+    #         self.direccion_entry.grid(row = 7, column = 3)
+    #     return self.direccion_entry
 
 
 
@@ -120,15 +120,14 @@ class ViewNewCliente(PanedWindow):
         '''Persiste el cliente nuevo'''
         try:
             documento = self.get_documento_entry().get()
-            key = documento
             contacto = self.get_tel_entry().get()
             mail = self.get_email_entry().get()
             nombre = self.get_nombre_entry().get()
             apellido = self.get_apellido_entry().get()
-            direccion = self.get_direccion_entry().get()
+            # direccion = self.get_direccion_entry().get()
             if(self.val_cli(documento, nombre, apellido) and self.val_cont(contacto, mail)):
                 cliente = Cliente(documento,nombre, apellido, contacto)
-                resul = self.model.guardar(cliente,key,tipo)
+                resul = self.model.guardar(cliente,cliente.getClave())
                 if  resul == True :
                     messagebox.showinfo("", "Se Guardo con Exito")
                     self.destroy()
@@ -187,12 +186,9 @@ def list_cliente():
     datos = ['########### CLIENTES ############']
     bucle = 1
     model = Model()
-    clientes = {}
-    clientes = model.obtener_objetos(tipo)
-    print(clientes.keys())
-    for key in clientes:
-        # print(key.nombre)
-        cli = clientes[key]
+    clientes = []
+    clientes = model.obtener_objetos(Cliente)
+    for cli in clientes:
         datos.append("{}- Cedula: {}".format(bucle, cli.documento))
         datos.append("     Nombre: {}".format(cli.nombre))
         datos.append("     Apellido: {}".format(cli.apellido))
@@ -203,5 +199,5 @@ def list_cliente():
             # datos.append("     -----Email: {}".format(cli.contactos.email))
         datos.append("")
         datos.append("")
-        bucle += 1      
+        bucle += 1
     list_datos(datos)

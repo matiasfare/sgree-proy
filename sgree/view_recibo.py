@@ -145,17 +145,12 @@ class ViewNewRecibo(PanedWindow):
             presupuesto = self.get_presupuesto_entry().get()
             dispositivo = self.get_dispositivo_entry().get()
             cliente = self.get_cliente_entry().get()
-            key = cliente
 
              
             
             if(self.val_recibo(fecha, observacion, validez, tecnico, cliente)):
-                lista_rec = []
-                recibo = Recibo(fecha, presupuesto, validez, tecnico, observacion, dispositivo)
-                recibos = self.model.obtener_objetos(tipo)
-                lista_rec.append(recibo)
-                recibos[key] = lista_rec
-                resul = self.model.guardar(recibos,key,tipo)
+                recibo = Recibo(fecha, presupuesto, validez, tecnico, observacion, dispositivo,cliente)
+                resul = self.model.guardar(recibo,recibo.get_clave())
                 if  resul == True :
                     messagebox.showinfo("", "Se Guardo con Exito")
                     self.destroy()
@@ -214,21 +209,17 @@ def list_recibos():
     datos = ['################ RECIBOS ###############']
     bucle = 1
     model = Model()
-    recibos = {}
-    recibos = model.obtener_objetos(tipo)
+    recibos = []
+    recibos = model.obtener_objetos(Recibo)
     
-    for key in recibos:
-        # print(key.nombre)
-        rec = recibos[key]
+    for rec in recibos:
         datos.append("{}- Fecha: {}".format(bucle, rec.fecha))
         datos.append("     Cliente: {}".format(rec.cliente))
         datos.append("     Tecnico: {}".format(rec.tecnico))
-        datos.append("     Presupuesto: {}".format(rec.presupuesto))        
-        # datos.append("     Direccion: {}".format(rec.direccion))
+        datos.append("     Presupuesto: {}".format(rec.presupuesto))
+        datos.append("     Validez: {} Dias" .format(rec.validez))
         datos.append("     Observacion: ")
-        # if rec.contactos:
         datos.append("     ----- : {}".format(rec.observacion))
-            # datos.append("     -----Email: {}".format(rec.contactos.email))
         datos.append("")
         datos.append("")
         bucle += 1      
