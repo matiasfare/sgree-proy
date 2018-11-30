@@ -5,6 +5,7 @@ from persona import Cliente
 from ficha import Recibo
 from contacto import *
 from model import Model
+import view as utils
 from view_utils import *
 import random
 import sys, os, time
@@ -36,10 +37,11 @@ class ViewNewRecibo(PanedWindow):
 
     def start(self):
         '''Inicializa ventana, agregar cliente'''
+        
         self.__panel_master.config( bg =fondo)
-        Label(self, text="NUEVO RECIBO: ").grid(row = 1, column = 1)
-        Label(self, text="Fecha-Recibo: ").grid(row = 1, column = 2)
-        Label(self, text="Observacion*: ").grid(row = 2, column = 1)
+        Label(self, text="NUEVO RECIBO: ", font = utils.titulo).grid(row = 1, column = 1)
+        Label(self, text="Fecha-Recibo: " , font = utils.fuente).grid(row = 1, column = 2)
+        Label(self, text="Observacion*: ", font = utils.fuente).grid(row = 2, column = 1)
         Label(self, text="Validez*: ").grid(row = 3, column = 1)
         Label(self, text="Tecnico*: ").grid(row = 4, column = 1)
         Label(self, text="Presupuesto*: ").grid(row = 5, column = 1)

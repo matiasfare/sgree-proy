@@ -164,6 +164,8 @@ class View(Frame):
 
 
 #---------------Utils---------------------
+    
+
     def salir(self):
         if(messagebox.askyesno("Salir", "Desea terminar la ejecucion?")):
             exit()
@@ -217,4 +219,12 @@ class View(Frame):
 
 #------------------------Vistas Optener Datos---------------------
 
+# class LabelLocal(Label):
+#     '''Clase que genera objetos tipo Label'''
+#     def __init__(self):
+#         self.label = 
 
+titulo = 'Helvetica 12 bold'
+
+fuente = 'Helvetica 10 bold'
+    
