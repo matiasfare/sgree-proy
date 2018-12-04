@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import messagebox
 from datetime import datetime
+from controller import Controller
 from persona import *
 from model import *
 
@@ -47,53 +48,47 @@ def list_datos(datos):
     ventana.mainloop()
 
 
-# def list_asesor():
-#     """Genera una lista con los datos de los asesores"""
-#     datos = ['------======DETALLE ASESORES======------']
-#     bucle = 1
-#     for asesor in bd.asesores:
-#         datos.append("{}- Cedula: {}".format(bucle, asesor.cedula))
-#         datos.append("     Nombre: {}".format(asesor.nombre))
-#         datos.append("     Apellido: {}".format(asesor.apellido))
-#         datos.append("     Direccion: {}".format(asesor.direccion))
-#         datos.append("     Contactos: ")
-#         if asesor.contactos:
-#             datos.append("     -----Tel: {}".format(asesor.contactos.tel))
-#             datos.append("     -----Email: {}".format(asesor.contactos.email))
-#         datos.append("     Fecha Inicio: {}".format(asesor.fecha_ini))
-#         datos.append("     Sueldo: {}".format(asesor.sueldo))
-#         datos.append("")
-#         datos.append("")
-#         bucle += 1
-#     list_datos(datos)
+def list_recibos():
+    """Genera una lista con los datos de los Recibos"""
+    datos = ['################ RECIBOS ###############']
+    bucle = 1
+    model = Model()
+    recibos = []
+    recibos = model.obtener_objetos(Recibo)
     
-# def list_soli(soli):
-#     """Genera una lista con los datos de las solicitudes"""
-#     datos = ['------======DETALLE SOLICITUDES======------']
-#     bucle = 1
-#     ep = "                  "
-#     ep1 = "                                      "
-#     for sol in soli:
-#         datos.append("{}- Cliente: {}".format(bucle, sol.cliente))
-#         datos.append("     Asesor: {}".format(sol.asesor))
-#         datos.append("     Vehiculo: ")
-#         datos.append("{}-Chapa: {}".format(ep, sol.vehiculo.chapa))
-#         datos.append("{}-Marca: {}".format(ep, sol.vehiculo.marca))
-#         datos.append("{}-Modelo: {}".format(ep, sol.vehiculo.modelo))
-#         datos.append("     Repuestos:".format(ep))
-#         if sol.repuestos:
-#             datos.append("{}=Tipo: {}".format(ep, sol.repuestos.tipo))
-#             datos.append("{}=Marca: {}".format(ep, sol.repuestos.marca))
-#             datos.append("{}=Costo: {}".format(ep, sol.repuestos.costo))
-#             datos.append("")
-#         datos.append("")
-#         bucle += 1
-#     list_datos(datos)
-    
-# def list_bajas():
-#     """Genera una lista con los datos de las solicitudes procesadas"""
-#     list_soli(bd.solicitudes_baja)
+    for rec in recibos:
+        datos.append("{}- Fecha: {}".format(bucle, rec.fecha))
+        datos.append("     Codigo : {}".format(recibos.index(rec)))
+        datos.append("     Cliente: {}".format(rec.cliente))
+        datos.append("     Tecnico: {}".format(rec.tecnico))
+        datos.append("     Presupuesto: {}".format(rec.presupuesto))
+        datos.append("     Validez: {} Dias".format(rec.validez))
+        datos.append("     Vencido: {}".format(rec.calcular_validez()))
+        datos.append("     Observacion: ")
+        datos.append("     ----- : {}".format(rec.observacion))
+        datos.append("     Estado: {}".format(rec.estado))
+        datos.append("")
+        datos.append("")
+        bucle += 1      
+    list_datos(datos)
 
-# def list_nobajas():
-#     """Genera una lista con los datos de las solicitudes no procesadas"""
-#     list_soli(bd.solicitudes)
+def list_cliente():
+    """Genera una lista con los datos de los clientes"""
+    datos = ['########### CLIENTES ############']
+    bucle = 1
+    model = Model()
+    clientes = []
+    clientes = model.obtener_objetos(Cliente)
+    for cli in clientes:
+        datos.append("{}- Cedula: {}".format(bucle, cli.documento))
+        datos.append("     Nombre: {}".format(cli.nombre))
+        datos.append("     Apellido: {}".format(cli.apellido))
+        # datos.append("     Direccion: {}".format(cli.direccion))
+        datos.append("     Contactos: ")
+        # if cli.contactos:
+        datos.append("     -----Tel: {}".format(cli.contacto))
+            # datos.append("     -----Email: {}".format(cli.contactos.email))
+        datos.append("")
+        datos.append("")
+        bucle += 1
+    list_datos(datos)

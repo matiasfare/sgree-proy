@@ -12,7 +12,8 @@ from persona import Cliente,Tecnico
 
 
 class Model(persistent.Persistent):
-    diccionarios = ['Clientes', 'Recibos','Tecnicos','Contactos']
+    diccionarios = ['Clientes', 'Recibos','Tecnicos']
+
     @staticmethod
     def obtener_objetos(self):
         '''Retorna todos los objetos que pertenezcan a la Clave del Diccionario'''
@@ -32,19 +33,22 @@ class Model(persistent.Persistent):
         db = MiZODB('sgree-data.fs')
         dbroot = db.raiz
         #Si el diccionario no Existe, lo crea y guarda el objeto
-        if not dic in dbroot:
-            sub_lis = []
-            dbroot[dic] = sub_lis
-            sub_lis.append(obj)
-            dbroot[dic] = sub_lis
-            resul = True
-        #si el dic ya existe, verifica si el dato ya existe, si no es asi, lo guarda
-        elif dic in dbroot:
-            sub_lis = dbroot[dic]
-            if not obj in sub_lis:
+        try:
+            if not dic in dbroot:
+                sub_lis = []
+                dbroot[dic] = sub_lis
                 sub_lis.append(obj)
                 dbroot[dic] = sub_lis
                 resul = True
+            #si el dic ya existe, verifica si el dato ya existe, si no es asi, lo guarda
+            elif dic in dbroot:
+                sub_lis = dbroot[dic]
+                if not obj in sub_lis:
+                    sub_lis.append(obj)
+                    dbroot[dic] = sub_lis
+                    resul = True
+        except AttributeError as e:
+            resul = e
         transaction.commit()
         db.close()
         return resul
@@ -72,113 +76,24 @@ class Model(persistent.Persistent):
         db.close()
         return resul
 
-    def editar(self):
-        '''Debe restortar el elemento a editar'''
-        pass
+    def update(self, obj,indice):
+        '''Actualiza un objeto, teniendo en cuenta diccionario y clave'''
+        #Abre base de datos  
+        db = MiZODB('sgree-data.fs')
+        dbroot = db.raiz
+        dic = obj.get_clave()
 
-
-
-
-
-
-
-#---------------------MODEL MVC PRIMER PARCIAL--------------------------------
-# model = Model()
-
-# cliente2 = Cliente(57434,'Matias','Fare', '0981135750')
-
-# print(cliente2.getClave())
-
-# model.guardar(cliente2,cliente2.getClave())
-
-# print(Cliente.getClave(Cliente))
-
-# lis = model.obtener_objetos(Cliente)
-
-# print(lis)
-# print(lis[0].nombre)
-
-# num = len(lis)
-# for obj in lis:
-#     print(obj.nombre+ ', '+ obj.apellido)
-    
-        
-# class View():
-        
-#     def vista_crear_recibo(self):
-#         '''Intereactua con le usuario asi obtener datos necesarios para crear objeto Recibo '''
-#         print ("----------CREAR RECIBO-------------!\n")
-#         fecha = time.strftime("%F")
-#         print(fecha+"\n")
-#         dispositivo = input("Ingrese Tipo de Dispositivo: ")
-#         tecnico = input("Tecnico: ")
-#         presupuesto = input("Ingrese Presupuesto(Variable):")
-#         validez = input("Validez de la Ficha(en dias): ")
-#         observacion = input("Ingrese Observacion: ")
-#         nuevo_recibo = Recibo(fecha,presupuesto,validez,tecnico,observacion,dispositivo)
-#         return nuevo_recibo
-
-
-#     def vista_agregar_cliente(self):
-#         '''Intereactua con le usuario asi obtener datos necesarios para crear objeto Cliente '''
-#         print("----------CREAR CLIENTE-------------!\n")
-#         cedula  = input("Ingrese documento del nuevo Cliente: ")
-#         nombre = input("Ingrese el nombre del nuevo Cliente:")
-#         apellido = input("ingrese el apellido del nuevo Cliente:")
-#         contacto = input ("Ingrese numero de contacto: ")
-#         nuevo_cliente = Cliente(cedula, nombre, apellido, contacto)
-#         return nuevo_cliente
-
-
-#     def vista_listar(self, lista):
-#         '''Recibe como parametro una lista clientes e imprime en pantalla todos sus elementos'''
-#         print('Listado de personas en la base de datos: \n')
-#         # try:
-#         #     for clave in lista:
-#         #         obj = lista[clave]
-#         #         print('CI: ', clave, ', Apellido: ', obj.apellido, ', Nombre: ', obj.nombre, ', Contacto', obj.contacto, '\n')
-#         # except KeyError:
-#         #     print("Error de Clave")
-#         for clave in lista:
-#             print (clave, ":", lista[clave].nombre, ", ", lista[clave].apellido)
-
-                   
-
-
-#     # def vista_listar_recibos(self, lista_recibo):
-#     #     '''Recibe como parametro la lista de recibos e imprime en pantalla'''
-#     #     print('Listado de Recibos en la base de datos: \n')
-#     #     if lista_recibo:
-#     #         for Recibo in lista_recibo[]:
-#     #             print('Fecha: ', Recibo.fecha, '\n Presupuesto : ', Recibo.validez, 'dias', ',\n Tecnico: ', Recibo.tecnico)
-
-
-#     def vista_buscar_por_cedula(self):
-#         '''Pide al usuario ingresar el numero de documento a buscar'''
-#         cedula = input("Ingrese el numero de documento de la persona a buscar: ")
-#         return cedula
-
-
-#     def vista_imprimir_persona_buscada_por_cedula(self, resultado):
-#         '''Recibe como paremetro el resultado de la busqueda e imprime en pantalla'''
-#         print("La persona encontrada es: ", resultado)
-
-
-#     def vista_imprimir_recibo(self, resultado):
-#         '''Recibe como paremetro un objeto Recibo e imprime en pantalla'''
-#         print("El recibo creado es: ", resultado)
-
-
-#     # def selecionar_tecnico(self):
-#     #     '''selecciona tenico para la ficha busca en la bd.
-#     #      si el tecnico seleccionado existe o no, en caso que exista lo retorna'''
-#     #     listar_tecnicos()
-#     #     op = input_entero()
-#     #     # try op =! int:
-#     #     #     op = lee_entero()
-#     #     # else:
-#     #     # pass
-#     #     return op
+        if dic in dbroot:
+            sub_lis = dbroot[dic]
+            sub_lis[indice] = obj
+            dbroot[dic] = sub_lis
+            resul = True
+        else:
+            resul = False
+            
+        transaction.commit()
+        db.close()
+        return resul
 
 
 

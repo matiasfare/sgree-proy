@@ -12,6 +12,11 @@ class Controller(Persistent):
     #     self.model = Model()
     #     self.view = View()
 
+    # def retorar_lista(self):
+    #     '''Obtiene una lista de objetos basados en su Clave '''
+    #     resultado = self.model.obtener_objetos(self.get_clave())
+
+    #     return resultado
     def con_add_cliente(self): 
         # View.add_cliente(self)
         pass
@@ -23,6 +28,8 @@ class Controller(Persistent):
 
     def del_recibo(self):
         pass
+
+    
 
         # def crear_recibo(self):
         #     '''Controlador que se comunica con la vista y el modelo para Agregar o Crear Recibo'''

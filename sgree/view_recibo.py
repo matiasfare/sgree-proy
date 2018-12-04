@@ -10,7 +10,6 @@ from view_utils import *
 import random
 import sys, os, time
 tipo = 'Recibos'
-
 fondo = 'lime green'
 buttom_color = 'lime green'
 
@@ -126,14 +125,14 @@ class ViewNewRecibo(PanedWindow):
         return val
 
 
-    # def val_cont(self, tel, mail):
-    #     '''Valida datos Opcionales al agregar cliente'''
-    #     val = False
-    #     if tel != "" or mail != "":
-    #         val = True
-    #     else:
-    #         messagebox.showinfo("", "Ingrese por lo menos 1 contacto")
-    #     return val
+    def val_cont(self, tel, mail):
+        '''Valida datos Opcionales al agregar cliente'''
+        val = False
+        if tel != "" or mail != "":
+            val = True
+        else:
+            messagebox.showinfo("", "Ingrese Todos los Datos requeridos")
+        return val
    
     def add_recibo(self):
         '''Persiste nuevo Recibo, si esta correctamente cargado'''
@@ -145,18 +144,17 @@ class ViewNewRecibo(PanedWindow):
             presupuesto = self.get_presupuesto_entry().get()
             dispositivo = self.get_dispositivo_entry().get()
             cliente = self.get_cliente_entry().get()
-
+            estado = 'Pendiente'
              
             
-            if(self.val_recibo(fecha, observacion, validez, tecnico, cliente)):
-                recibo = Recibo(fecha, presupuesto, validez, tecnico, observacion, dispositivo,cliente)
+            if(self.val_recibo(fecha, observacion, validez, tecnico, cliente) and self.val_cont(dispositivo,cliente)):
+                recibo = Recibo(fecha, presupuesto, validez, tecnico, observacion, dispositivo,cliente,estado)
                 resul = self.model.guardar(recibo,recibo.get_clave())
                 if  resul == True :
                     messagebox.showinfo("", "Se Guardo con Exito")
                     self.destroy()
                 elif resul == False:
                     messagebox.showinfo("", "Error, ya existe Recibo")
-           
         except Exception as e:
             print(e)
             messagebox.showerror('Error', e)
@@ -188,6 +186,7 @@ class ViewDelRecibo(PanedWindow):
         return self.soli_entry
 
     def eliminar(self):
+        tipo = 'Recibos'
         try:
             key = int(self.get_soli_entry().get())
             try:
@@ -206,6 +205,7 @@ class ViewDelRecibo(PanedWindow):
 class ViewEditRecibo(PanedWindow):
     '''Panel para Editar Cliente'''
     soli_entry = None
+    opcion = None
 
     def __init__(self, panel_master):
         PanedWindow.__init__(self, master=panel_master)
@@ -213,70 +213,91 @@ class ViewEditRecibo(PanedWindow):
         self.inicializar()
         self.model = Model()
         self.pack()
+        
+
 
     def inicializar(self):
-        Label(self, text = "BORRAR RECIBO", ).grid(row = 1, column = 2)
+        
+        Label(self, text = "ACTUALIZAR RECIBO", ).grid(row = 1, column = 2)
         Label(self, text = "Ingrese Codigo RECIBO*: ").grid(row = 2, column = 1)
-        Button(self, text = "Editar", command = self.eliminar).grid(
-            row = 3, column = 1)
+        Label(self, text = "Ingrese nuevo estado*: ").grid(row = 3, column = 1)
+        Label(self, text = "Estados Validos: Retirado, Pendiente, Presupuesto ").grid(row = 4, column = 1)
 
-        self.get_soli_entry()
+        Button(self, text = "Cargar Cambio", command = self.editar).grid(
+            row = 4, column = 2)
+        
 
-    def get_soli_entry(self):
+
+        self.get_cod_entry()
+        self.get_estado_entry()
+
+    def get_cod_entry(self):
         if not self.soli_entry:
-            self.soli_entry = Entry(master = self, width = 20)
+            self.soli_entry = Entry(master = self, width = 10)
             self.soli_entry.grid(row = 2, column = 2)
         return self.soli_entry
 
+
+    def get_estado_entry(self):
+        if not self.opcion:
+            self.opcion = Entry(master = self, width = 15)
+            self.opcion.grid(row = 3, column = 2)
+        return self.opcion      
+
+
     def editar(self):
         try:
-            key = int(self.get_soli_entry().get())
+            key = int(self.get_cod_entry().get())
+            new_status = self.get_estado_entry().get()
             #Comprueba que el codigo exista
             recibos = self.model.obtener_objetos(Recibo)
-            try key > len(recibos) or key < len(recibos):
-                if(messagebox.askyesno("Editar", "Editar Recibo?")):
-                    recibos = self.model.obtener_objetos(Recibo)    
-                        if obj in recibos:
-                            reci = recibos[key]
-                            reci.validez =  
-                    if(resul):
-                        messagebox.showinfo("Editar", "Recibo guardado")
-                        self.destroy()
+            can_reci= len(recibos)
+            try:
+                if key >= 0 and key <= can_reci:
+                    if(messagebox.askyesno("Editar", "Editar Recibo?")):
+                        reci = recibos[key]
+                        reci.estado = new_status
+                        resul = self.model.update(reci,key)
+                    elif (resul):
+                        messagebox.showinfo("Editar", "Edicion Finalizada")
                     else:
-                        messagebox.showerror("Info", "No existe cliente")
+                        messagebox.showinfo("Editar", "Edicion Cancelada")
+                else:
+                    messagebox.showerror("Info", "No existe Recibo")
             except Exception as e:
                 messagebox.showerror("Info", e)
         except:
             messagebox.showerror("Info", "Ingrese un numero Valido \n o Existente")
 
 
-def list_recibos():
-    """Genera una lista con los datos de los Recibos"""
-    datos = ['################ RECIBOS ###############']
-    bucle = 1
-    model = Model()
-    recibos = []
-    recibos = model.obtener_objetos(Recibo)
+# def list_recibos():
+#     """Genera una lista con los datos de los Recibos"""
+#     datos = ['################ RECIBOS ###############']
+#     bucle = 1
+#     model = Model()
+#     recibos = []
+#     recibos = model.obtener_objetos(Recibo)
     
-    for rec in recibos:
-        datos.append("{}- Fecha: {}".format(bucle, rec.fecha))
-        datos.append("     Codigo : {}".format(recibos.index(rec)))
-        datos.append("     Cliente: {}".format(rec.cliente))
-        datos.append("     Tecnico: {}".format(rec.tecnico))
-        datos.append("     Presupuesto: {}".format(rec.presupuesto))
-        datos.append("     Validez: {} Dias".format(rec.validez))
-        datos.append("     Vencido: {}".format(rec.calcular_validez()))
-        datos.append("     Observacion: ")
-        datos.append("     ----- : {}".format(rec.observacion))
-        datos.append("")
-        datos.append("")
-        bucle += 1      
-    list_datos(datos)
+#     for rec in recibos:
+#         datos.append("{}- Fecha: {}".format(bucle, rec.fecha))
+#         datos.append("     Codigo : {}".format(recibos.index(rec)))
+#         datos.append("     Cliente: {}".format(rec.cliente))
+#         datos.append("     Tecnico: {}".format(rec.tecnico))
+#         datos.append("     Presupuesto: {}".format(rec.presupuesto))
+#         datos.append("     Validez: {} Dias".format(rec.validez))
+#         datos.append("     Vencido: {}".format(rec.calcular_validez()))
+#         datos.append("     Observacion: ")
+#         datos.append("     ----- : {}".format(rec.observacion))
+#         datos.append("     Estado: {}".format(rec.estado))
+#         datos.append("")
+#         datos.append("")
+#         bucle += 1      
+#     list_datos(datos)
 
 
 
 # root = Tk()
 
-# ad = ViewNewRecibo(root)
+# # ad = ViewNewRecibo(root)
 
 # list_recibos()

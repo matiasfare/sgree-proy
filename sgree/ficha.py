@@ -23,7 +23,7 @@ class Recibo(Ficha,Persistent):
         return self.tipo
     
 
-    def __init__(self, fecha, presupuesto, validez, tecnico, observacion, dispositivo,cliente):
+    def __init__(self, fecha, presupuesto, validez, tecnico, observacion, dispositivo,cliente,estado):
         self.fecha = fecha
         self.presupuesto = presupuesto
         self.validez = validez
@@ -31,6 +31,7 @@ class Recibo(Ficha,Persistent):
         self.observacion = observacion
         self.dispositivo = dispositivo
         self.cliente = cliente
+        self.estado = estado
         #self.dispositivo.append(dispositivo)
     
     def calcular_validez(self):
