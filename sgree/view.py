@@ -61,6 +61,8 @@ class View(Frame):
             command = self.del_recibo)
         menu_asesor.add_command(label="Listar Recibos",
             command = list_recibos)
+        menu_asesor.add_command(label="Editar Recibos",
+            command = self.edit_recibo )
         menubar.add_cascade(label="Recibos", menu = menu_asesor)
 
         menu_soli = Menu(menubar, tearoff=0)
@@ -118,6 +120,11 @@ class View(Frame):
     def del_recibo(self):
         self.clear()  
         form = ViewDelRecibo(self.__panel_master)
+        self.__vista_actual = form
+    
+    def edit_recibo(self):
+        self.clear()  
+        form = ViewEditRecibo(self.__panel_master)
         self.__vista_actual = form
 
     # def listar_cliente(self):

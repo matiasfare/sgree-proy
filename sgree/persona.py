@@ -10,12 +10,12 @@ class Persona(metaclass=ABCMeta):
         self.nombre = nombre
         self.apellido = apellido
         self.documento = documento
-    def getClave(self):
+    def get_clave(self):
         pass
 
 class Cliente(Persona,Persistent):
     '''Clase para crear un Cliente'''
-    tipo = "Clientes"
+    tipo = 'Clientes'
     contacto = []
     
     def get_clave(self):
@@ -29,7 +29,7 @@ class Cliente(Persona,Persistent):
 
 class Tecnico(Persona,Persistent):
     '''Clase para un Tecnico'''
-    tipo = "Tecnicos"
+    tipo = 'Tecnicos'
     
     def __init__(self, documento, nombre, apellido,contacto, dispositivos):
         self.nombre = nombre

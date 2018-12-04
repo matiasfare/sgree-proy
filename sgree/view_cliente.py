@@ -127,7 +127,8 @@ class ViewNewCliente(PanedWindow):
             # direccion = self.get_direccion_entry().get()
             if(self.val_cli(documento, nombre, apellido) and self.val_cont(contacto, mail)):
                 cliente = Cliente(documento,nombre, apellido, contacto)
-                resul = self.model.guardar(cliente,cliente.getClave())
+                print('La clave es: '+cliente.get_clave())
+                resul = self.model.guardar(cliente,cliente.get_clave())
                 if  resul == True :
                     messagebox.showinfo("", "Se Guardo con Exito")
                     self.destroy()

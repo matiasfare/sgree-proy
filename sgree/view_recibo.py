@@ -216,8 +216,8 @@ class ViewEditRecibo(PanedWindow):
 
     def inicializar(self):
         Label(self, text = "BORRAR RECIBO", ).grid(row = 1, column = 2)
-        Label(self, text = "Ingrese numero RECIBO*: ").grid(row = 2, column = 1)
-        Button(self, text = "Eliminar", command = self.eliminar).grid(
+        Label(self, text = "Ingrese Codigo RECIBO*: ").grid(row = 2, column = 1)
+        Button(self, text = "Editar", command = self.eliminar).grid(
             row = 3, column = 1)
 
         self.get_soli_entry()
@@ -228,21 +228,26 @@ class ViewEditRecibo(PanedWindow):
             self.soli_entry.grid(row = 2, column = 2)
         return self.soli_entry
 
-    def eliminar(self):
+    def editar(self):
         try:
             key = int(self.get_soli_entry().get())
-            try:
-                if(messagebox.askyesno("Eliminar", "Eliminar cliente?")):
-                    resul = self.model.eliminar_obj(str(key),tipo)
+            #Comprueba que el codigo exista
+            recibos = self.model.obtener_objetos(Recibo)
+            try key > len(recibos) or key < len(recibos):
+                if(messagebox.askyesno("Editar", "Editar Recibo?")):
+                    recibos = self.model.obtener_objetos(Recibo)    
+                        if obj in recibos:
+                            reci = recibos[key]
+                            reci.validez =  
                     if(resul):
-                        messagebox.showinfo("Eliminado", "Cliente eliminado")
+                        messagebox.showinfo("Editar", "Recibo guardado")
                         self.destroy()
                     else:
                         messagebox.showerror("Info", "No existe cliente")
             except Exception as e:
                 messagebox.showerror("Info", e)
         except:
-            messagebox.showerror("Info", "Ingrese un numero Valido")
+            messagebox.showerror("Info", "Ingrese un numero Valido \n o Existente")
 
 
 def list_recibos():
@@ -255,10 +260,12 @@ def list_recibos():
     
     for rec in recibos:
         datos.append("{}- Fecha: {}".format(bucle, rec.fecha))
+        datos.append("     Codigo : {}".format(recibos.index(rec)))
         datos.append("     Cliente: {}".format(rec.cliente))
         datos.append("     Tecnico: {}".format(rec.tecnico))
         datos.append("     Presupuesto: {}".format(rec.presupuesto))
-        datos.append("     Validez: {} Dias" .format(rec.validez))
+        datos.append("     Validez: {} Dias".format(rec.validez))
+        datos.append("     Vencido: {}".format(rec.calcular_validez()))
         datos.append("     Observacion: ")
         datos.append("     ----- : {}".format(rec.observacion))
         datos.append("")
