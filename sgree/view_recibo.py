@@ -6,7 +6,7 @@ from ficha import Recibo
 from contacto import *
 from model import Model
 import view as utils
-from view_utils import *
+import view_utils
 import random
 import sys, os, time
 tipo = 'Recibos'
@@ -148,7 +148,7 @@ class ViewNewRecibo(PanedWindow):
             if recibo.cliente in doc_clientes:
                 resul = True
             else:
-                messagebox.showinfo('', 'Ingrese CI Cliente Existente')
+                messagebox.showinfo('', 'Ingrese Cedula Cliente Existente' + recibo.cliente + 'No existe')
                 resul = False
         except Exception as e:
             resul = e
@@ -229,7 +229,7 @@ class ViewDelRecibo(PanedWindow):
             messagebox.showerror('Info', 'Ingrese un numero Valido')
 
 class ViewEditRecibo(PanedWindow):
-    '''Panel para Editar Cliente'''
+    '''Panel para Editar Recibo'''
     soli_entry = None
     opcion = None
 
@@ -244,7 +244,7 @@ class ViewEditRecibo(PanedWindow):
 
     def inicializar(self):
         
-        Label(self, text = 'ACTUALIZAR RECIBO', font = utils.titulo ).grid(row = 1, column = 2)
+        Label(self, text = 'ACTUALIZAR RECIBO', font = utils.titulo ).grid(row = 1, column = 1)
         Label(self, text = 'Ingrese Codigo RECIBO*: ', font = utils.titulo).grid(row = 2, column = 1)
         Label(self, text = 'Ingrese nuevo estado*: ', font = utils.titulo).grid(row = 3, column = 1)
         Label(self, text = 'Estados Validos: Retirado, Pendiente, Presupuesto ').grid(row = 4, column = 1)
@@ -308,6 +308,65 @@ class ViewEditRecibo(PanedWindow):
                 messagebox.showerror('Info', 'Estado Invalido')
         except:
             messagebox.showerror('Info', 'Ingrese un numero Valido \n o Existente')
+
+
+
+class ViewListReciboTec(PanedWindow):
+    '''Panel para Listar Recibo por Tecnico'''
+    soli_entry = None
+    opcion = None
+
+    def __init__(self, panel_master):
+        PanedWindow.__init__(self, master=panel_master)
+        self.__panel_master = panel_master
+        self.inicializar()
+        self.model = Model()
+        self.utils =  view_utils
+        self.pack()
+        
+
+
+    def inicializar(self):
+        
+        Label(self, text = 'LISTAR RECIBOS POR TECNICO', font = utils.titulo ).grid(row = 1, column = 1)
+        Label(self, text = 'Ingrese Nombre Tecnico*: ', font = utils.titulo).grid(row = 2, column = 1)
+
+        Button(self, text = 'Listar', command = self.lista_recibo ).grid(
+            row = 4, column = 2)
+        
+        self.get_tecnico_entry()
+
+    def get_tecnico_entry(self):
+        if not self.soli_entry:
+            self.soli_entry = Entry(master = self, width = 25)
+            self.soli_entry.grid(row = 2, column = 2)
+        return self.soli_entry 
+
+    def val_tecnico(self,tecnico):
+        '''Valida el tecnico exista sea una de las opciones correctas'''
+        tecnicos = ['Jorge','Anibal','Matias']
+        if tecnico in tecnicos:
+            resul = True
+        else:
+            resul = False
+        return resul
+
+    
+    def lista_recibo(self):
+        '''Actualiza el atrubuto estado de un objeto Recibo
+         recibiendo la posicion y el nuevo valor del atributo'''
+        try:
+            tec = str(self.get_tecnico_entry().get())
+            val = self.val_tecnico(tec)
+            if val == True:
+                utils.list_por_dato_recibido(tec)
+                # list_por_dato_recibido(tec)
+                print('hola 4')
+            else:
+                messagebox.showerror('Info', 'No existe Tecnico:    '+ tec)
+        except Exception as e:
+            print(e)
+            messagebox.showerror('Info', 'Ingrese tipo de dato Valido')
 
 
 # def list_recibos():

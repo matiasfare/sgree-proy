@@ -6,8 +6,6 @@ from controller import Controller
 from persona import *
 from model import *
 
-bgC = "black"
-fgC = "black"
 bgBC = "white"
 resol_pc_vs = '600x300+200+160'
 
@@ -49,7 +47,7 @@ def list_datos(datos):
 
 
 def list_recibos():
-    """Genera una lista con los datos de los Recibos"""
+    """Genera una lista con los datos de todos los Recibos"""
     datos = ['################ RECIBOS ###############']
     bucle = 1
     model = Model()
@@ -71,6 +69,51 @@ def list_recibos():
         datos.append("")
         bucle += 1      
     list_datos(datos)
+
+def filtrar_recibos_tecnico(dato):
+    '''Devuelve lista de objetos que cumpla con los requisitos del recibo'''
+    model = Model()
+    recibos = model.obtener_objetos(Recibo)
+    lista = []
+    print('Hola')
+    try:
+        for rec in recibos:
+            if rec.tecnico == dato:
+                lista.append(copy.copy(rec))
+    except Exception as e:
+        print(e)
+        
+    return lista
+            
+
+
+
+def list_por_dato_recibido(dato):
+    """Genera una lista con los datos de todos los Recibos Por el Tecnico que Recibe"""
+    datos = ['################ RECIBOS ###############']
+    bucle = 1
+    model = Model()
+    recibos = []
+    recibos = model.obtener_objetos(Recibo)
+    
+    for rec in recibos:
+        if rec.tecnico == dato:
+            datos.append("{}- Fecha: {}".format(bucle, rec.fecha))
+            datos.append("     Codigo : {}".format(recibos.index(rec)))
+            datos.append("     Cliente: {}".format(rec.cliente))
+            datos.append("     Tecnico: {}".format(rec.tecnico))
+            datos.append("     Presupuesto: {}".format(rec.presupuesto))
+            datos.append("     Validez: {} Dias".format(rec.validez))
+            datos.append("     Valido: {}".format(rec.calcular_validez()))
+            datos.append("     Observacion: ")
+            datos.append("     ----- : {}".format(rec.observacion))
+            datos.append("     Estado: {}".format(rec.estado))
+            datos.append("")
+            datos.append("")
+            bucle += 1      
+    list_datos(datos)
+
+
 
 def list_cliente():
     """Genera una lista con los datos de los clientes"""

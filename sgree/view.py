@@ -11,9 +11,9 @@ from tkinter import ttk
 
 #Resolucion y pocicion de Ventana Principal
     #Principal
-resol_poc_vp = '500x250+200+150'
+resol_poc_vp = '900x500+200+150'
     #Secundaria
-resol_pc_vs = '600x300+200+160'
+resol_pc_vs = '800x700+200+160'
 TITULO = 'SGREE - Proyecto Paradigmas'
 #Color de la Ventana
 fondo = "Beige"
@@ -68,7 +68,7 @@ class View(Frame):
 
         menu_soli = Menu(menubar, tearoff=0)
         menu_soli.add_command(label = "Por Técnico", 
-            command = self.info)
+            command = self.listar_recibo_por_tecnico)
         menu_soli.add_command(label = "Por Fecha", 
             command = self.info)
         menu_soli.add_separator()
@@ -126,6 +126,11 @@ class View(Frame):
     def edit_recibo(self):
         self.clear()  
         form = ViewEditRecibo(self.__panel_master)
+        self.__vista_actual = form
+    
+    def listar_recibo_por_tecnico(self):
+        self.clear()  
+        form = ViewListReciboTec(self.__panel_master)
         self.__vista_actual = form
 
     # def listar_cliente(self):
