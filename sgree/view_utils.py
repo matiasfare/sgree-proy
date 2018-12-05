@@ -63,7 +63,7 @@ def list_recibos():
         datos.append("     Tecnico: {}".format(rec.tecnico))
         datos.append("     Presupuesto: {}".format(rec.presupuesto))
         datos.append("     Validez: {} Dias".format(rec.validez))
-        datos.append("     Vencido: {}".format(rec.calcular_validez()))
+        datos.append("     Valido: {}".format(rec.calcular_validez()))
         datos.append("     Observacion: ")
         datos.append("     ----- : {}".format(rec.observacion))
         datos.append("     Estado: {}".format(rec.estado))
@@ -92,3 +92,5 @@ def list_cliente():
         datos.append("")
         bucle += 1
     list_datos(datos)
+
+

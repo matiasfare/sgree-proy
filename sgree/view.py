@@ -19,8 +19,9 @@ TITULO = 'SGREE - Proyecto Paradigmas'
 fondo = "Beige"
 buttom_color = 'lime green'
 
+#Fuente y tamaño de Titulos
 titulo = 'Helvetica 12 bold'
-
+#Fuente y tamaño de texto
 fuente = 'Helvetica 10 bold'
 
 class View(Frame):
@@ -61,7 +62,7 @@ class View(Frame):
             command = self.del_recibo)
         menu_asesor.add_command(label="Listar Recibos",
             command = list_recibos)
-        menu_asesor.add_command(label="Editar Recibos",
+        menu_asesor.add_command(label="Cambiar Estado Recibo",
             command = self.edit_recibo )
         menubar.add_cascade(label="Recibos", menu = menu_asesor)
 

@@ -11,12 +11,12 @@ import random
 import sys, os, time
 tipo = 'Recibos'
 fondo = 'lime green'
-buttom_color = 'lime green'
+buttom_color = 'light blue'
 
 class ViewNewRecibo(PanedWindow):
     '''Panel para crear un Recibo'''
 
-    date = time.strftime("%F")
+    date = time.strftime('%F')
     model = Model()
     fecha_entry = None
     observacion_entry = None
@@ -38,17 +38,17 @@ class ViewNewRecibo(PanedWindow):
         '''Inicializa ventana, agregar cliente'''
         
         self.__panel_master.config( bg =fondo)
-        Label(self, text="NUEVO RECIBO: ", font = utils.titulo).grid(row = 1, column = 1)
-        Label(self, text="Fecha-Recibo: " , font = utils.fuente).grid(row = 1, column = 2)
-        Label(self, text="Observacion*: ", font = utils.fuente).grid(row = 2, column = 1)
-        Label(self, text="Validez*: ").grid(row = 3, column = 1)
-        Label(self, text="Tecnico*: ").grid(row = 4, column = 1)
-        Label(self, text="Presupuesto*: ").grid(row = 5, column = 1)
+        Label(self, text='NUEVO RECIBO: ', font = utils.titulo).grid(row = 1, column = 1)
+        Label(self, text='Fecha-Recibo: ' , font = utils.fuente).grid(row = 1, column = 2)
+        Label(self, text='Observacion*: ', font = utils.fuente).grid(row = 2, column = 1)
+        Label(self, text='Validez* (Dias): ', font = utils.fuente).grid(row = 3, column = 1)
+        Label(self, text='Tecnico*: ', font = utils.fuente).grid(row = 4, column = 1)
+        Label(self, text='Presupuesto*: ', font = utils.fuente).grid(row = 5, column = 1)
 
-        Label(self, text="----------IMPORTANTE----------").grid(row = 6, column = 2)
-        Label(self, text="Dispositivo(imeil): ").grid(row = 7, column = 2 )
-        Label(self, text="Cliente: ").grid(row = 8, column = 2)
-        Button(self, text="GUARDAR", command = self.add_recibo, bg = buttom_color).grid(row = 15, column = 3,  sticky = W)
+        Label(self, text='----------IMPORTANTE----------', font = utils.titulo).grid(row = 6, column = 2)
+        Label(self, text='Dispositivo(imeil): ', font = utils.fuente).grid(row = 7, column = 2 )
+        Label(self, text='Cliente: ', font = utils.fuente).grid(row = 8, column = 2)
+        Button(self, text='GUARDAR', font = utils.fuente, command = self.add_recibo, bg = buttom_color).grid(row = 15, column = 3,  sticky = W)
 
         self.get_fecha_entry()
         self.get_observacion_entry()
@@ -62,7 +62,7 @@ class ViewNewRecibo(PanedWindow):
     def get_fecha_entry(self):
         '''Cuadro de texto cliente-dato fecha'''
         if not self.fecha_entry:
-            Label(self, text=" "+ self.date).grid(row = 1, column = 3)
+            Label(self, text=' '+ self.date).grid(row = 1, column = 3)
             self.fecha_entry = self.date
         return self.fecha_entry
 
@@ -118,21 +118,42 @@ class ViewNewRecibo(PanedWindow):
     def val_recibo(self, fecha, obs, vali, tec, cli):
         '''Valida los Datos del Nuevo Recibo'''
         val = False
-        if obs != "" and tec != "" and cli != "":
+        if obs != '' and tec != '' and cli != '' and int(vali):
             val = True
         else:
-            messagebox.showinfo("", "Ingrese correctamente los datos del " + "Recibo")
+            messagebox.showinfo('', 'Ingrese correctamente los datos del ' + 'Recibo')
         return val
 
 
     def val_cont(self, tel, mail):
         '''Valida datos Opcionales al agregar cliente'''
         val = False
-        if tel != "" or mail != "":
+        if tel != '' or mail != '':
             val = True
         else:
-            messagebox.showinfo("", "Ingrese Todos los Datos requeridos")
+            messagebox.showinfo('', 'Ingrese Todos los Datos requeridos')
         return val
+    
+
+    def val_cliente(self,recibo):
+        '''Verifica si el cliente existe en la BD usando el Documento
+        Retorna True si existe el cliente'''
+
+        clientes = self.model.obtener_objetos(Cliente)
+        doc_clientes = []
+        for cli in clientes:
+            doc_clientes.append(cli.documento)
+        
+        try:
+            if recibo.cliente in doc_clientes:
+                resul = True
+            else:
+                messagebox.showinfo('', 'Ingrese CI Cliente Existente')
+                resul = False
+        except Exception as e:
+            resul = e
+    
+        return resul
    
     def add_recibo(self):
         '''Persiste nuevo Recibo, si esta correctamente cargado'''
@@ -145,16 +166,16 @@ class ViewNewRecibo(PanedWindow):
             dispositivo = self.get_dispositivo_entry().get()
             cliente = self.get_cliente_entry().get()
             estado = 'Pendiente'
-             
+            recibo = Recibo(fecha, presupuesto, validez, tecnico, observacion, dispositivo,cliente,estado)
             
-            if(self.val_recibo(fecha, observacion, validez, tecnico, cliente) and self.val_cont(dispositivo,cliente)):
-                recibo = Recibo(fecha, presupuesto, validez, tecnico, observacion, dispositivo,cliente,estado)
+            if(self.val_recibo(fecha, observacion, validez, tecnico, cliente) and self.val_cont(dispositivo,cliente)
+            and self.val_cliente(recibo)):
                 resul = self.model.guardar(recibo,recibo.get_clave())
                 if  resul == True :
-                    messagebox.showinfo("", "Se Guardo con Exito")
+                    messagebox.showinfo('', 'Se Guardo con Exito')
                     self.destroy()
                 elif resul == False:
-                    messagebox.showinfo("", "Error, ya existe Recibo")
+                    messagebox.showinfo('', 'Error, ya existe Recibo')
         except Exception as e:
             print(e)
             messagebox.showerror('Error', e)
@@ -172,9 +193,9 @@ class ViewDelRecibo(PanedWindow):
         self.pack()
 
     def inicializar(self):
-        Label(self, text = "BORRAR RECIBO", ).grid(row = 1, column = 2)
-        Label(self, text = "Ingrese numero RECIBO*: ").grid(row = 2, column = 1)
-        Button(self, text = "Eliminar", command = self.eliminar).grid(
+        Label(self, text = 'BORRAR RECIBO' ).grid(row = 1, column = 2)
+        Label(self, text = 'Ingrese numero RECIBO*: ').grid(row = 2, column = 1)
+        Button(self, text = 'Eliminar', command = self.eliminar).grid(
             row = 3, column = 1)
 
         self.get_soli_entry()
@@ -184,23 +205,28 @@ class ViewDelRecibo(PanedWindow):
             self.soli_entry = Entry(master = self, width = 20)
             self.soli_entry.grid(row = 2, column = 2)
         return self.soli_entry
+    
+    def obtener_recibo(self,key):
+        '''Retorna el objeto recibo usando su key'''
+        recibos = self.model.obtener_objetos(Recibo)
+        return recibos[int(key)]
 
     def eliminar(self):
-        tipo = 'Recibos'
         try:
             key = int(self.get_soli_entry().get())
             try:
-                if(messagebox.askyesno("Eliminar", "Eliminar cliente?")):
-                    resul = self.model.eliminar_obj(str(key),tipo)
+                if(messagebox.askyesno('Eliminar', 'Eliminar Recibo?')):
+                    obj = self.obtener_recibo(key)
+                    resul = self.model.eliminar_obj(obj,key)
                     if(resul):
-                        messagebox.showinfo("Eliminado", "Cliente eliminado")
+                        messagebox.showinfo('Eliminado', 'Recibo eliminado')
                         self.destroy()
-                    else:
-                        messagebox.showerror("Info", "No existe cliente")
+                else:
+                    messagebox.showerror('Info', 'No existe Recibo')
             except Exception as e:
-                messagebox.showerror("Info", e)
+                messagebox.showerror('Info', e)
         except:
-            messagebox.showerror("Info", "Ingrese un numero Valido")
+            messagebox.showerror('Info', 'Ingrese un numero Valido')
 
 class ViewEditRecibo(PanedWindow):
     '''Panel para Editar Cliente'''
@@ -218,12 +244,12 @@ class ViewEditRecibo(PanedWindow):
 
     def inicializar(self):
         
-        Label(self, text = "ACTUALIZAR RECIBO", ).grid(row = 1, column = 2)
-        Label(self, text = "Ingrese Codigo RECIBO*: ").grid(row = 2, column = 1)
-        Label(self, text = "Ingrese nuevo estado*: ").grid(row = 3, column = 1)
-        Label(self, text = "Estados Validos: Retirado, Pendiente, Presupuesto ").grid(row = 4, column = 1)
+        Label(self, text = 'ACTUALIZAR RECIBO', font = utils.titulo ).grid(row = 1, column = 2)
+        Label(self, text = 'Ingrese Codigo RECIBO*: ', font = utils.titulo).grid(row = 2, column = 1)
+        Label(self, text = 'Ingrese nuevo estado*: ', font = utils.titulo).grid(row = 3, column = 1)
+        Label(self, text = 'Estados Validos: Retirado, Pendiente, Presupuesto ').grid(row = 4, column = 1)
 
-        Button(self, text = "Cargar Cambio", command = self.editar).grid(
+        Button(self, text = 'Cargar Cambio', command = self.editar).grid(
             row = 4, column = 2)
         
 
@@ -244,34 +270,48 @@ class ViewEditRecibo(PanedWindow):
             self.opcion.grid(row = 3, column = 2)
         return self.opcion      
 
+    def val_estado(self,estado):
+        '''Valida que el estado sea una de las opciones correctas'''
+        estados = ['Retirado','Pendiente','Presupuesto']
+        if estado in estados:
+            resul = True
+        else:
+            resul = False
+        return resul
 
+    
     def editar(self):
+        '''Actualiza el atrubuto estado de un objeto Recibo
+         recibiendo la posicion y el nuevo valor del atributo'''
         try:
             key = int(self.get_cod_entry().get())
             new_status = self.get_estado_entry().get()
-            #Comprueba que el codigo exista
-            recibos = self.model.obtener_objetos(Recibo)
-            can_reci= len(recibos)
-            try:
-                if key >= 0 and key <= can_reci:
-                    if(messagebox.askyesno("Editar", "Editar Recibo?")):
-                        reci = recibos[key]
-                        reci.estado = new_status
-                        resul = self.model.update(reci,key)
-                    elif (resul):
-                        messagebox.showinfo("Editar", "Edicion Finalizada")
+            if self.val_estado(new_status):
+                #Comprueba que el codigo exista
+                recibos = self.model.obtener_objetos(Recibo)
+                can_reci= len(recibos)
+                try:
+                    if key >= 0 and key <= can_reci:
+                        if(messagebox.askyesno('Editar', 'Editar Recibo?')):
+                            reci = recibos[key]
+                            reci.estado = new_status
+                            resul = self.model.update(reci,key)
+                        elif (resul):
+                            messagebox.showinfo('Editar', 'Edicion Finalizada')
+                        else:
+                            messagebox.showinfo('Editar', 'Edicion Cancelada')
                     else:
-                        messagebox.showinfo("Editar", "Edicion Cancelada")
-                else:
-                    messagebox.showerror("Info", "No existe Recibo")
-            except Exception as e:
-                messagebox.showerror("Info", e)
+                        messagebox.showerror('Info', 'No existe Recibo')
+                except Exception as e:
+                    messagebox.showerror('Info', e)
+            else:
+                messagebox.showerror('Info', 'Estado Invalido')
         except:
-            messagebox.showerror("Info", "Ingrese un numero Valido \n o Existente")
+            messagebox.showerror('Info', 'Ingrese un numero Valido \n o Existente')
 
 
 # def list_recibos():
-#     """Genera una lista con los datos de los Recibos"""
+#     '''Genera una lista con los datos de los Recibos'''
 #     datos = ['################ RECIBOS ###############']
 #     bucle = 1
 #     model = Model()
@@ -279,18 +319,18 @@ class ViewEditRecibo(PanedWindow):
 #     recibos = model.obtener_objetos(Recibo)
     
 #     for rec in recibos:
-#         datos.append("{}- Fecha: {}".format(bucle, rec.fecha))
-#         datos.append("     Codigo : {}".format(recibos.index(rec)))
-#         datos.append("     Cliente: {}".format(rec.cliente))
-#         datos.append("     Tecnico: {}".format(rec.tecnico))
-#         datos.append("     Presupuesto: {}".format(rec.presupuesto))
-#         datos.append("     Validez: {} Dias".format(rec.validez))
-#         datos.append("     Vencido: {}".format(rec.calcular_validez()))
-#         datos.append("     Observacion: ")
-#         datos.append("     ----- : {}".format(rec.observacion))
-#         datos.append("     Estado: {}".format(rec.estado))
-#         datos.append("")
-#         datos.append("")
+#         datos.append('{}- Fecha: {}'.format(bucle, rec.fecha))
+#         datos.append('     Codigo : {}'.format(recibos.index(rec)))
+#         datos.append('     Cliente: {}'.format(rec.cliente))
+#         datos.append('     Tecnico: {}'.format(rec.tecnico))
+#         datos.append('     Presupuesto: {}'.format(rec.presupuesto))
+#         datos.append('     Validez: {} Dias'.format(rec.validez))
+#         datos.append('     Vencido: {}'.format(rec.calcular_validez()))
+#         datos.append('     Observacion: ')
+#         datos.append('     ----- : {}'.format(rec.observacion))
+#         datos.append('     Estado: {}'.format(rec.estado))
+#         datos.append('')
+#         datos.append('')
 #         bucle += 1      
 #     list_datos(datos)
 

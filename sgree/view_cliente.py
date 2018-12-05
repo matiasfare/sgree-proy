@@ -3,6 +3,7 @@ from tkinter import messagebox
 from persona import *
 from contacto import *
 from model import Model
+import view 
 from view_utils import *
 fondo = 'light blue'
 tipo = 'Clientes'
@@ -163,20 +164,38 @@ class ViewDelCliente(PanedWindow):
             self.soli_entry = Entry(master = self, width = 20)
             self.soli_entry.grid(row = 2, column = 2)
         return self.soli_entry
+    
+    def val_cliente(self,ci):
+        '''Verifica si el cliente existe y retorna pocicion si el cliente existe'''
+        clientes = self.model.obtener_objetos(Cliente)
+        doc_clientes = []
+        for cli in clientes:
+            doc_clientes.append(cli.documento)
+        
+      
+        if ci in doc_clientes:
+            resul = doc_clientes.index(ci)
+        else:
+            messagebox.showinfo('', 'Ingrese CI Cliente Existente')
+            resul = False
+ 
+
+        return resul
+
+
 
     def eliminar(self):
         try:
-            key = int(self.get_soli_entry().get())
-            try:
-                if(messagebox.askyesno("Eliminar", "Eliminar cliente?")):
-                    resul = self.model.eliminar_obj(str(key),tipo)
+            key = self.get_soli_entry().get()
+            indi = self.val_cliente(str(key))
+            if indi != False:
+                if(messagebox.askyesno("Eliminar", "Eliminar cliente?")):  
+                    resul = self.model.eliminar_obj(Cliente,indi)
                     if(resul):
                         messagebox.showinfo("Eliminado", "Cliente eliminado")
                         self.destroy()
                     else:
                         messagebox.showerror("Info", "No existe cliente")
-            except Exception as e:
-                messagebox.showerror("Info", e)
         except:
             messagebox.showerror("Info", "Ingrese un numero Valido")
         

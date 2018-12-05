@@ -5,7 +5,7 @@ class Dispositivo(metaclass=ABCMeta):
     '''Dispositivo es una clase abstracta'''
     @abstractmethod
     def __init__(self, marca):
-        
+        self.marca = marca
 
 class Celular (Dispositivo):
     '''Dispositivos tipo Celular'''
@@ -17,7 +17,7 @@ class Celular (Dispositivo):
 
 class Pc (Dispositivo):
     '''Dispositivos tipo PC de escritorio'''
-    def __init__ (sefl, marca, modelo, placa):
+    def __init__ (self, marca, modelo, placa):
         self.marca = marca
         self.modelo = modelo
         self.placa = placa
@@ -26,7 +26,7 @@ class Pc (Dispositivo):
 
 class Notebook (Dispositivo):
     '''Dispositivos tipo Notebook o Laptop'''
-    def __init__ (sefl, marca, modelo, dimencion_pantalla):
+    def __init__ (self, marca, modelo, dimencion_pantalla):
         self.marca = marca
         self.modelo = modelo
         self.dimencion_pantalla = dimencion_pantalla

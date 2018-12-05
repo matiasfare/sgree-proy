@@ -35,6 +35,7 @@ class Recibo(Ficha,Persistent):
         #self.dispositivo.append(dispositivo)
     
     def calcular_validez(self):
+        '''Verifica si el recibo aun es valido'''
         #formato de la fecha
         formato_fecha = "%Y-%m-%d"
         #Cambia formato de la fecha
@@ -50,3 +51,16 @@ class Recibo(Ficha,Persistent):
         resul = (fecha_rec >= fecha_act)
         print("\tEs valido el Recibo:", resul)
         return resul
+    
+    def fecha_vencimiento(self):
+        '''Retorna Fecha de Vencimiento'''
+        #formato de la fecha
+        formato_fecha = "%Y-%m-%d"
+        #Cambia formato de la fecha
+        print('Fecha Recibo: '+self.fecha)
+        print('Validez: '+self.validez)
+        fecha = datetime.strptime(self.fecha, formato_fecha).date()
+        
+        fecha_rec = fecha + timedelta(days = int(self.validez))
+        print("\tFecha Vencimiento Recibo:", fecha_rec)
+        return fecha_rec

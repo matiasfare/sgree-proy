@@ -54,24 +54,18 @@ class Model(persistent.Persistent):
         return resul
 
 
-    def eliminar_obj(self,clave, dic):
+    def eliminar_obj(self,obj,indice):
         '''Elimina un objeto, teniendo en cuenta diccionario y clave al que pertenece'''
-        MiZODB('sgree-data.fs').close()
         #Abre base de datos  
         db = MiZODB('sgree-data.fs')
         dbroot = db.raiz
-        # verifica que exista el diccionario
-        # Si el diccionario existe borra la clave, si esta existe
+        print(obj.get_clave())
+        dic = obj.get_clave()
         if dic in dbroot:
             sub_dic = dbroot[dic]
-            print(sub_dic)
-            if  clave in sub_dic:
-                del sub_dic[clave]
-                dbroot[dic] = sub_dic
-                resul = True
-            elif not clave in sub_dic:
-                resul = False
-                print ('No existe este Dato')
+            sub_dic.pop(indice)
+            dbroot[dic] = sub_dic
+            resul = True
         transaction.commit()
         db.close()
         return resul
